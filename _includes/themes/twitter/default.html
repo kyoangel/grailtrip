@@ -35,8 +35,8 @@
             <a class="brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
           </span>
           <span  class="align-right">
-            <a class="brand" style="float:right;" href="{{ HOME_PATH }}{{page.url | replace: '/zh/', 'en/'}}">English</a>
-            <a class="brand" style="float:right;" href="{{ HOME_PATH }}{{page.url | replace: '/en/', 'zh/'}}">简体中文</a>
+            <a class="brand" style="float:right;" href="{{ HOME_PATH }}{{page.url | replace: '/zh/', '' | prepend: 'en/'}}">English</a>
+            <a class="brand" style="float:right;" href="{{ HOME_PATH }}{{page.url | replace: '/en/', '' | prepend: 'zh/'}}">简体中文</a>
           </span>
 
 
