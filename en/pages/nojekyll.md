@@ -1,5 +1,6 @@
 ---
 layout: page
+lang: en
 title: Making a jekyll-free site
 description: Making a GitHub Pages site without Jekyll.
 ---

@@ -3,7 +3,7 @@ layout: page
 title: Grail Trip
 tagline: Your Trip Solution Across Europe
 description: To help you book europe trip tickets include DBahn, Italo, and Trenitalia
-locale: en
+locale: zh
 ---
 
 {% assign locale = page.locale%}
@@ -15,12 +15,6 @@ locale: en
 {% endfor %}
 
 <br>
-
-If anything here is confusing (or _wrong_!), or if I've missed
-important details, please
-[submit an issue](https://github.com/kbroman/simple_site/issues), or (even
-better) fork [the GitHub repository for this website](https://github.com/kbroman/simple_site),
-make modifications, and submit a pull request.
 
 ---
 
