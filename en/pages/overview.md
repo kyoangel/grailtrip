@@ -1,16 +1,192 @@
 ---
 layout: page
 lang: en
-title: Overview of GitHub Pages
-description: Overview of construction of a website with GitHub Pages
+title: Grail API Document
+description: Grail API Document
 ---
 
-## 概述
+# Grail API Document
 
-本文档介绍了Oulu API定义以及使用场景和例子。
+## Introduction
+This article explains the APIs of Grail and how to use them to Search, Book and Confirm tickets of Europe Railways (DB Deutsche Bahn, Trenitalia, Italo) and buses (flixbus).
 
-## Search行程
+You only need three APIs to accomplish the very basic ticket search and booking scenario.
 
+## Search for Journey Solutions
+
+The following is the request and response message for search journey from 12:00 pm local time, on Feb. 16, 2017, from Roma Termini to Milano Centrale station.
+
+> Make sure provide security params with each request
+
+> Use async query to retrieve the response.
+
+### Search Request
+
+`GET /v1/online_solutions`
+
+This is an async call, an async-key will be returned. Try to use
+
+`GET /v1/async_results/{async_key}` 
+
+to retrieve response data.
+
+
+Next is request json for a search request for an adult traveler, from 12:00 pm on Feb. 16, 2017, departures from Roma Termini (central station of Roma, station code: 'ST_EZVVG1X5') and arrives in Milano Centrale (station code: ST_D8NNN9ZK).
+
+```json
+  {
+    "s": "ST_EZVVG1X5",
+    "d": "ST_D8NNN9ZK",
+    "dt": "2017-02-16 12:00",
+    "na": 1,
+    "nc": 0
+  }
+```
+
+#### Parameters
+Parameter | Description | Type         |
+--------- | ----------- | ----------- |
+s         | Departure station code    |  string     |
+d         | Destination station code    |  string     |     
+dt        | Departure date time，format as yyyy-MM-dd HH:mm    |  string     | 
+na        | Number of adults    |  integer     |   
+nc        | Number of children      |  integer     | 
+
+The response json message include data of both Trenitalia (TI) and Italo (NTV) because there are two railway companies have trains between Roma and Milano.
+
+
+### Search Response  
+The following is response json for a search request from Roma Termini to Milano Centrale
+```json
+  [
+    {
+      "rw":"TI", 
+      "dt":"2017-02-17", 
+      "dur":"02:55",
+      "s":"ST_D8NNN9ZK", 
+      "d":"ST_EZVVG1X5",
+      "sn":"Roma Termini", 
+      "dn":"Milano Centrale",
+      "res":"N/A",
+      "ni":0, 
+      "secs":[
+        {
+          "id":"SC_1CO4FO2",
+          "s":"ST_D8NNN9ZK", 
+          "d":"ST_EZVVG1X5", 
+          "sn":"Roma Termini", 
+          "dn":"Milano Centrale", 
+          "offers":[
+            {
+              "o":"1|1|0|ITA", 
+              "od":"Base", 
+              "svcs":[
+                {
+                  "sa":10, 
+                  "p":22000,
+                  "sc":"30000|1", 
+                  "sd":"30000"
+                }, 
+                {
+                  "sa":41, 
+                  "p":12200, 
+                  "sc":"30002|1", 
+                  "sd":"30002"
+                }
+              ]
+            }
+          ],
+          "trzs":[
+            {
+              "trz":"FR 9626", 
+              "s":"ST_D8NNN9ZK", 
+              "d":"ST_EZVVG1X5", 
+              "sn":"Roma Termini", 
+              "dn":"Milano Centrale", 
+              "dep":"2017-02-17 12:00", 
+              "arr":"2017-02-17 14:55"
+            }
+          ]
+        }  
+      ]
+  },
+  {
+      "rw":"NTV", 
+      "dt":"2017-02-17", 
+      "other information": "more information"
+  }
+]
+```
+#### Parameters
+
+Parameter | Description | Type         |  
+--------- | ----------- | ----------- |
+rw         | Railway code    |  string    |     
+dt        | Departure date time, format: yyyy-MM-dd HH:mm    |  string     | 
+dur        | duration，format: HH:mm    |  string     |   
+s         | Departure station code    |  string     |
+sn        | Departure station name    |  string     |
+d         | Destination station code    |  string     | 
+dn        | Destination station name    |  string     |  
+res       | Seat reservation      | enum mandatory, optional, N/A      |
+ni        | Number of changes    |  integer     | 
+secs      | Sections， based on different types of trains, for details see Section information    |  array     | 
+
+**rw Railway Code**
+
+Railway | Name | Value         |  
+--------- | ----------- | ----------- |
+Italy         | Trenitalia    |  TI    | 
+Germany         | DbBahn    |  DB     |     
+Italy        | Italo    |  NTV     | 
+
+**Section**
+Because different railway companies have different kinds of trains, and the offer and service (coach class), many railway companies split the entire journey solutions into multiple sections and for each section, the offers and services are the same.
+Parameter | Description | Type         |  
+--------- | ----------- | ----------- |
+id        | Section ID  |  string     | 
+s         | Departure station code    |  string     |
+sn        | Departure station name    |  string     | 
+d         | Destination station code    |  string     | 
+dn        | Destination station name    |  string     |  
+offers    | Offer list    |  array     |  
+trzs      | Train list    |  array     |  
+
+**Offer**
+Railway companies have different discount for their tickets, it is called Offer.
+
+Parameter | Description | Type         |  
+--------- | ----------- | ----------- |
+o        | Offer Code  |  string     | 
+od         | Offer Description    |  string     |
+svcs        | Services list, see service table    |  array     | 
+
+**Service**
+Trains have different coach classes, we call it Service.
+
+Parameter | Description | Type         |  
+--------- | ----------- | ----------- |
+sa        | Seats available  |  integer     | 
+p         | Price (in cents)     |  integer     |
+sc        | Service Code    |  string     | 
+sd        | Service Description    |  string     | 
+
+**Train**
+
+Parameter | Description | 类型         |  
+--------- | ----------- | ----------- |
+trz       | Train code  |  string     | 
+s         | Departure station code    |  string     |
+sn        | Departure station name    |  string     | 
+d         | Destination station code    |  string     | 
+dn        | Destination station name    |  string     | 
+dep       | Departure date time, format: yyyy-MM-dd HH:mm    |  string     |
+arr       | Arrival date time, format: :yyyy-MM-dd HH:mm    |  string     |
+
+
+The following is sample code to search for journey solutions from both Trenitalia and Italo for an adult traveler, on April 1st, 2017, from Roma Termini to Milano Centrale
+
+> Ruby
 ```ruby
 #!/usr/bin/env ruby
 
@@ -91,7 +267,7 @@ class Hash
   alias_method :to_param, :to_query
 end
 
-search_criteria = {"d":"ST_D8NNN9ZK","dt": 11.hours.since(Time.new(2017,4,1)).strftime("%Y-%m-%d %H:%M"),"na":1,"nc":0,"s":"ST_EZVVG1X5"}
+search_criteria = {"s":"ST_EZVVG1X5","d":"ST_D8NNN9ZK","dt": 11.hours.since(Time.new(2017,4,1)).strftime("%Y-%m-%d %H:%M"),"na":1,"nc":0}
 
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
@@ -139,176 +315,228 @@ begin
 rescue =>e
   p e
 end
- 
-
 ```
 
-右边的例子展示了搜索2017年2月16日中午12点开始从罗马到米兰火车票形成的Request和Response
 
-<aside class="notice">每个request，都需要提供security params</aside>
-<aside class="notice">API会采用异步查询的方式获得结果。</aside>
-> 搜索Request
+## Book
+
+> Make sure provide security params with each request
+
+> Use async query to retrieve the response.
+
+### Book Request
+
+`POST /v1/online_orders`
+
+This is an async call, an async-key will be returned. Try to use
+
+`GET /v1/async_results/{async_key}`
+to retrieve response data.
+
+The following is book request json for a ticket for train FR 9626 from Roma to Milano, Executive service, base offer
 
 ```json
   {
-    "s": "ST_EZVVG1X5",
-    "d": "ST_D8NNN9ZK",
-    "dt": "2017-02-16 12:00",
-    "na": 1,
-    "nc": 0
-  }
-```
-
-
-### HTTP Request
-
-`GET /v1/online_solutions`
-
-该操作为异步调用，真实环境下返回异步查询async_key，再通过GET /v1/async_results/{async_key} 获取真实结果。
-
-
-### 搜索行程Request  
-
-
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     |     
-dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     | 
-na        | 成年人人数    |  integer     |   
-nc        | 儿童人数    |  integer     | 
-
-> 搜索Response，返回结果包括意铁(TI)和法拉利铁路(NTV)的行程
-
-```json
-  [
+    "ct":
     {
-      "rw":"TI", 
-      "dt":"2017-02-17", 
-      "dur":"02:55",
-      "s":"ST_D8NNN9ZK", 
-      "d":"ST_EZVVG1X5",
-      "sn":"Roma Termini(意大利-罗马火车总站(特米尼))", 
-      "dn":"Milano Centrale(意大利-米兰中央总站)",
-      "ni":0, 
-      "secs":[
-        {
-          "id":"SC_1CO4FO2",
-          "s":"ST_D8NNN9ZK", 
-          "d":"ST_EZVVG1X5", 
-          "sn":"Roma Termini(意大利-罗马火车总站(特米尼))", 
-          "dn":"Milano Centrale(意大利-米兰中央总站)", 
-          "offers":[
-            {
-              "o":"1|1|0|ITA", 
-              "od":"全价票", 
-              "svcs":[
-                {
-                  "sa":10, 
-                  "p":22000,
-                  "sc":"30000|1", 
-                  "sd":"30000"
-                }, 
-                {
-                  "sa":41, 
-                  "p":12200, 
-                  "sc":"30002|1", 
-                  "sd":"30002"
-                }
-              ]
-            }
-          ],
-          "trzs":[
-            {
-              "trz":"FR 9626", 
-              "s":"ST_D8NNN9ZK", 
-              "d":"ST_EZVVG1X5", 
-              "sn":"Roma Termini(意大利-罗马火车总站(特米尼))", 
-              "dn":"Milano Centrale(意大利-米兰中央总站)", 
-              "dep":"2017-02-17 12:00", 
-              "arr":"2017-02-17 14:55"
-            }
-          ]
-        }  
-      ]
-  },
-  {
-      "rw":"NTV", 
-      "dt":"2017-02-17", 
-      "other information": "more information"
+      "name": "Zhang San",
+      "e": "test@email.com",
+      "post": "post code",
+      "ph": "123456",
+      "add": "address"
+    },
+    "psgs": [
+      {
+        "lst": "First",
+        "fst": "Last",
+        "birth": "1996-09-02",
+        "e": "test@email.com",
+        "ph": "123456",
+        "passport": "12121221",
+        "exp": "2022-11-03"
+      }
+    ],
+    "secs": [
+      {
+        "id": "SC_1LECVMF",
+        "o": "1|1|0|ITA",
+        "st": "30000|1"
+      }
+    ],
+    "res": false
   }
-]
-  
 
 ```
 
-### 搜索行程Response  
+#### Book parameters  
 
+In order to book ticket, we need three kinds of information including contact person, travelers information and order information such as section data, offer code and service code.
 
-Parameter | Description | 类型         |  
+Parameter | Description | Type         |
 --------- | ----------- | ----------- |
-rw         | 铁路公司编码    |  string    |     
-dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     | 
-dur        | 时长，格式为HH:mm    |  string     |   
-s         | 起始站编码    |  string     |
-sn        | 起点站站名    |  string     |
-d         | 终点站编码    |  string     | 
-dn        | 终点站站名    |  string     |  
-ni        | 换车次数    |  integer     | 
-secs      | Sections，行程中的不同车型，详见Sections信息表格    |  array     | 
+ct         | Contact information, see Contact table    |  contact     |
+psgs       | Traveler information, see Traveler table    |  array     |     
+sec        | Section information, see Section table    |  array     | 
+res       | Flag for seat reservation, DB only    |  boolean     |
 
-rw铁路公司编码
+**Contact**
 
-铁路公司 | 英文名 | 值         |  
+Parameter | Description | Type         |
 --------- | ----------- | ----------- |
-意铁         | Trenitalia    |  TI    | 
-德铁         | DbBahn    |  DB     |     
-法拉利铁路        | Italo    |  NTV     | 
+name      | Name    |  string     |
+e         | Email    |  string     |     
+post      | Post code    |  string     | 
+ph        | Phone number    |  string     | 
+add       | Mailing address    |  string     | 
 
-Section信息
-因为不同铁路路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
+**Traveler**
+
+Parameter | Description | Type         |
+--------- | ----------- | ----------- |
+lst      | Last name    |  string     |
+fst         | First name    |  string     |     
+birth      | Birthday, format: yyyy-MM-dd    |  string     | 
+pt        | Passport number    |  string     | 
+exp       | Expiration date of Passport, Format: yyyy-MM-dd    |  string     | 
+
+**Sections**
 
 Parameter | Description | 类型         |  
 --------- | ----------- | ----------- |
 id        | Section ID  |  string     | 
-s         | 起始站编码    |  string     |
-sn        | 起点站站名    |  string     | 
-d         | 终点站编码    |  string     | 
-dn        | 终点站站名    |  string     |  
-offers    | Offer列表，详见Offer表格    |  array     |  
-trzs      | 列车列表，详见列车表格    |  array     |  
+o         | Offer Code    |  string     |
+st        | Service Code    |  string     | 
 
-Offer信息
+### Book Response
+The following is response json for the book request above.
+```json
+{
+  "id": "OD_37Y7KNM0P",
+  "rw": "TI",
+  "cuy": "CNY",
+  "p": 320576,
+  "co": 6412,
+  "ta": 323782,
+  "dt": "2017-04-01",
+  "od": 1490870462,
+  "s": "ST_D8NNN9ZK",
+  "d": "ST_EZVVG1X5",
+  "psgs": [
+    {
+      "id": "PN_53Y1DDMKX",
+      "fst": "firste",
+      "lst": "last",
+      "birth": "1975-04-01",
+      "e": "aoe@oeu.com",
+      "ph": "10080",
+      "pt": "123456",
+      "exp": "2017-04-06"
+    }
+  ],
+  "tks": [
+    {
+      "id": "TK_54MW7WGXQ",
+      "p": 160288,
+      "s": "ST_D8NNN9ZK",
+      "st": "2017-04-01 11:20",
+      "d": "ST_EZVVG1X5",
+      "at": "2017-04-01 14:40"
+    },
+    {
+      "id": "TK_V384DYMNW",
+      "p": 160288,
+      "s": "ST_D8NNN9ZK",
+      "st": "2017-04-01 11:20",
+      "d": "ST_EZVVG1X5",
+      "at": "2017-04-01 14:40"
+    }
+  ],
+  "lns": [
+    {
+      "id": "OL_PKYKJ5PMQ",
+      "am": 1472,
+      "at": "slave",
+      "lt": "debit",
+      "cg": "custom",
+      "tg": "TK_V38441V8N",
+      "des": "OTA Commission 2%"
+    },
+    {
+      "id": "OL_54MWZ6XMP",
+      "am": 73587,
+      "at": "master",
+      "lt": "credit",
+      "cg": "custom",
+      "tg": "TK_V38441V8N",
+      "des": "Order"
+    },
+    {
+      "id": "OL_LOMO3EOGV",
+      "am": 1603,
+      "at": "master",
+      "lt": "credit",
+      "cg": "custom",
+      "tg": "PN_53Y1DDMKX",
+      "des": "Ticketing fee 2.2 Euro"
+    }
+  ]
+}
+```
+#### Parameters
 
-Parameter | Description | 类型         |  
+Parameter | Description | Type         |  
 --------- | ----------- | ----------- |
-o        | Offer Code  |  string     | 
-od         | Offer Description    |  string     |
-svcs        | 舱位列表，详见services信息表格    |  array     | 
+id        | ID    |  string    |  
+rw        | Railway code    |  string    |     
+cuy       | Currency, EUR,CNY or HKD etc.    |  string     | 
+p         | Ticket price in cents     |  integer     |
+co        | Commission in cents   |  integer     |   
+ta        | Full price in cents   |  integer     |
+dt        | Departure date, format: yyyy-MM-dd    |  string     | 
+od        | Order date    |  integer     |  
+s         | Departure station code    |  string     |
+d         | Destination station code    |  string     | 
+psgs      | List of travelers    | array      |
+tks       | List of tickets    |  array     | 
+lns       | List of fee    | array      |
 
-Service信息
+**Traveler**
 
-Parameter | Description | 类型         |  
+Parameter | Description | Type         |
 --------- | ----------- | ----------- |
-sa        | 剩余席位  |  integer     | 
-p         | 价格，最小货币单位     |  integer     |
-sc        | Service Code    |  string     | 
-sd        | Service Description    |  string     | 
+id       | ID          | string      |
+lst      | Last name    |  string     |
+fst         | First name    |  string     |     
+birth      | Birthday, format: yyyy-MM-dd    |  string     | 
+ph        | Phone     | string |
+e         | Email       | string |
+pt        | Passport    |  string     | 
+exp       | Expiration date of passport, Format: yyyy-MM-dd    |  string     | 
 
-列车信息
+**Ticket**
 
-Parameter | Description | 类型         |  
+Parameter | Description | Type         |  
 --------- | ----------- | ----------- |
-trz       | 车次  |  string     | 
-s         | 起始站编码    |  string     |
-sn        | 起点站站名    |  string     | 
-d         | 终点站编码    |  string     | 
-dn        | 终点站站名    |  string     | 
-dep       | 出发时间，格式为yyyy-MM-dd HH:mm    |  string     |
-arr       | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     |
+id        | ID          |  string    |  
+p         | Ticket price in cents    |  integer     |
+s         | Departure station code    |  string     |
+d         | Destination station code    |  string     | 
+st        | Departure date time, format: yyyy-MM-dd HH:mm    |  string     | 
+dt        | Arrival date time, format: yyyy-MM-dd HH:mm    |  string     | 
 
+**Fee**
 
-## Book行程
+Parameter | Description | Type         |  
+--------- | ----------- | ----------- |
+id        | ID          |  string    |  
+am        | Cost in cents     |  integer     |
+at        | Account type, master, slave, credit_card| string|
+lt        | debit or credit |   string |
+cg        | Type     | string      |
+tg        | 对应id      | string      |
+des       | 备注        |  string     |
+
+The following is ruby sample code for above book request.
 
 ```ruby
 #!/usr/bin/env ruby
@@ -411,251 +639,29 @@ begin
 rescue =>e
   p e
 end
-
-
-```
-
-右边的例子展示了Book 2017年2月16日中午12点从罗马到米兰的高铁(FR 9626)，Executive舱的Request和Response
-
-<aside class="notice">每个request，都需要提供security params</aside>
-<aside class="notice">API会采用异步查询的方式获得结果。</aside>
-> Book Request
-
-
-```json
-  {
-    "ct":
-    {
-      "name": "Zhang San",
-      "e": "test@email.com",
-      "post": "post code",
-      "ph": "123456",
-      "add": "address"
-    },
-    "psgs": [
-      {
-        "lst": "First",
-        "fst": "Last",
-        "birth": "1996-09-02",
-        "e": "test@email.com",
-        "ph": "123456",
-        "passport": "12121221",
-        "exp": "2022-11-03"
-      }
-    ],
-    "secs": [
-      {
-        "id": "SC_1LECVMF",
-        "o": "1|1|0|ITA",
-        "st": "30000|1"
-      }
-    ],
-    "res": false
-  }
-
-```
-
-### HTTP Request
-
-`POST /v1/online_orders`
-
-该操作为异步调用，真实环境下返回异步查询async_key，再通过GET /v1/async_results/{async_key} 获取真实结果。
-
-
-### Book行程Request  
-
-订票主要提供三类信息，分别是联系人，旅客信息以及订票信息（包括Section信息, offer code, service code）
-
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-ct         | 联系人信息，详见联系人信息信息表格    |  contact     |
-psgs       | 旅客信息，详见旅客信息列表    |  array     |     
-sec        | Segments，行程中的不同车型，详见Segment信息表格    |  array     | 
-res       | 是否订座，true or false    |  boolean     |
-
-联系人信息
-
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-name      | 名字    |  string     |
-e         | 邮件    |  string     |     
-post      | 邮政编码    |  string     | 
-ph        | 电话号码    |  string     | 
-add       | 邮寄地址    |  string     | 
-
-旅客信息
-
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-lst      | 姓，拼音    |  string     |
-fst         | 名，拼音    |  string     |     
-birth      | 生日，格式为yyyy-MM-dd    |  string     | 
-passport        | 护照号    |  string     | 
-exp       | 护照截止日期，格式为yyyy-MM-dd    |  string     | 
-
-Sections信息
-
-
-Parameter | Description | 类型         |  
---------- | ----------- | ----------- |
-id        | Section ID  |  string     | 
-o         | Offer Code    |  string     |
-st        | Service Code    |  string     | 
-
-
-> Book Response
-
-```json
-{
-  "id": "OD_37Y7KNM0P",
-  "rw": "TI",
-  "cuy": "CNY",
-  "p": 320576,
-  "co": 6412,
-  "ta": 323782,
-  "pc": 2,
-  "dt": "2017-04-01",
-  "od": 1490870462,
-  "s": "ST_D8NNN9ZK",
-  "d": "ST_EZVVG1X5",
-  "tks": [
-    {
-      "id": "TK_54MW7WGXQ",
-      "p": 160288,
-      "s": "ST_D8NNN9ZK",
-      "st": "2017-04-01 11:20",
-      "d": "ST_EZVVG1X5",
-      "at": "2017-04-01 14:40"
-    },
-    {
-      "id": "TK_V384DYMNW",
-      "p": 160288,
-      "s": "ST_D8NNN9ZK",
-      "st": "2017-04-01 11:20",
-      "d": "ST_EZVVG1X5",
-      "at": "2017-04-01 14:40"
-    }
-  ]
-}
-```
-
-### Book行程Response  
-
-
-Parameter | Description | 类型         |  
---------- | ----------- | ----------- |
-id        | ID    |  string    |  
-rw        | 铁路公司编码    |  string    |     
-cuy       | 币种，EUR, CNY, HKD等    |  string     | 
-p         | 票面价格，最小货币单位     |  integer     |
-co        | 佣金金额，最小货币单位   |  integer     |   
-ta        | 总价格，最小货币单位   |  integer     |
-pc        | 旅客人数   |  integer     |
-dt        | 出发日期，格式为yyyy-MM-dd    |  string     | 
-od        | 创建日期UNIX时间戳    |  integer     |  
-s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     | 
-tks       | 车票信息    |  array     | 
-
-车票信息
-
-Parameter | Description | 类型         |  
---------- | ----------- | ----------- |
-id        | ID          |  string    |  
-p         | 票面价格，最小货币单位     |  integer     |
-s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     | 
-st        | 出发时间，格式为yyyy-MM-dd HH:mm    |  string     | 
-dt        | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     | 
-
-
-## Confirm行程
-
-确认车票有线上车票和线下出票两种方式。线上出票会即时生成在线车票。
-
-*信用卡线上支付*
-
-德国国家铁路局需要提供信用卡支付。通过信用卡支付可以立即出票
-
-```ruby
-
-  def signature_of api_key, secret, params = {}
-    time = Time.new.to_i
-    hashdata = {api_key: api_key, t: time}.merge(params.reject {|k, v| v.is_a? Hash}.reject {|k, v| v.is_a? Array}.reject {|k, v| v.nil?})
-    sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
-    result = {
-      "From": api_key,
-      "Date": Time.at(time).httpdate,
-      "Authorization": sign
-    }
-  end
-  
-  confirm_information = {
-      "online_order_id": "OD_V3G44VG85",
-      "card": {
-        "cn": "349206776921275",
-        "name": "full name",
-        "exp": "202002",
-        "vn": "1234"
-      }
-  }
-  #alpha
-  api_key = "1fdeae6e7fd44c9e991d21066a828f0c"
-  secret = "4dae4d6a-4874-4d60-8eac-67701520671d"
-  env = "alpha"
-
-  def send_http_post uri, api_key, secret, params
-    res = Net::HTTP.start(uri.host, uri.port,
-      :use_ssl => uri.scheme == 'https') { |http|
-      request = Net::HTTP::Post.new uri
-      signature = signature_of(api_key, secret, params)
-      request["From"]=signature[:From]
-      request["Date"]=signature[:Date]
-      request["Authorization"]=signature[:Authorization]
-      request["content_type"] = 'application/json'
-      request.body = params.to_json
-      response = http.request request # Net::HTTPResponse object
-      async_resp = JSON(response.body)
-    }
-
-  end
-
-  def send_http_get uri, api_key, secret, params
-    Net::HTTP.start(uri.host, uri.port,
-      :use_ssl => uri.scheme == 'https') { |http|
-      request = Net::HTTP::Get.new uri
-      signature = signature_of(api_key, secret, params)
-      request["From"]=signature[:From]
-      request["Date"]=signature[:Date]
-      request["Authorization"]=signature[:Authorization]
-      response = http.request request # Net::HTTPResponse object
-      async_resp = JSON(response.body)
-    }
-  end
-
-  begin
-    uri = URI("https://#{env}.api.detie.cn/api/v1/online_confirmationss")
-    async_resp = send_http_post uri, api_key, secret, book_information
-    p async_resp
-    sleep(3)
-
-    get_result_uri = URI("https://#{env}.api.detie.cn/api/v1/async_results/#{async_resp['async']}")
-    50.times do
-      sleep(3)
-      book_result = send_http_get get_result_uri, api_key, secret, {async_key: async_resp['async']}
-      p book_result
-    end
-  rescue =>e
-    p e
-  end
 ```
 
 
-**Book之后，需要Confirm Booking，才会正式出票，右边是Request和Response的例子**
+## Confirm Booking
 
 
->Online Confirm Request
+Please make sure confirm booking within 30 mins after booking, then the ticket will be issued.
 
+> Make sure provide security params with each request
+
+> Use async query to retrieve the response.
+
+### Confirm Request
+
+`POST /v1/online_orders/{online_order_id}/online_confirmations`
+
+This is an async call, an async-key will be returned. Try to use
+
+`GET /v1/async_results/{async_key}` 
+
+to retrieve response data.
+
+The following is Request json for the booking above
 ```json
   {
     "online_order_id": "OD_V3G44VG85",
@@ -666,33 +672,26 @@ dt        | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     |
       "vn": "1234"
     }
   }
+
 ```
+The most important parameter is online_order_id. If booking Db ticket, please provide credit card and whether to reserve seat. Only DB needs to specify whether to reserve a seat and the servation fee is 2.5 euro per seat.
 
-*HTTP Request*
-
-`POST /v1/online_orders/{online_order_id}/online_confirmations`
-
-该操作为异步调用，真实环境下返回异步查询async_key，再通过GET /v1/async_results/{async_key} 获取真实结果。
-
-*Confirm Booking Request*
-
-Confirm最主要的是需要online_order_id。如果需要订购德铁车票，需要提供信用卡信息和是否订座信息。只有德铁的车次需要注明是否订座，订座费每人2.5欧元。
-
-Parameter | Description | 类型         |
+#### Parameters
+Parameter | Description | Type         |
 --------- | ----------- | ----------- |
-online_order_id         | Book Response中id字段    |  string     |
-card        | 信用卡信息，详见信用卡信息信息表格    |  详见信用卡信息     | 
+online_order_id         | Id in Book Response json    |  string     |
+card        | Credit card information    |  Credit card     | 
 
-信用卡信息
+**Credit Card**
 
-Parameter | Description | 类型         |  
+Parameter | Description | Type         |  
 --------- | ----------- | ----------- |
-cn        | 信用卡号          |  string    |  
-name         | 信用卡持有人姓名     |  string     |
-vn       |    安全码         |  string     |   
-exp         | 信用卡截止日期，格式为yyyyMM    |  string     |
+cn        | Card number          |  string    |  
+name         | Name     |  string     |
+vn       |    Security code         |  string     |   
+exp         | Expiration date, format:yyyyMM    |  string     |
 
-> Confirm Response
+### Confirm Response
 
 ```json
 {
@@ -708,55 +707,43 @@ exp         | 信用卡截止日期，格式为yyyyMM    |  string     |
     {
       "id": "OL_49MJV58MD",
       "am": 3206,
-      "des": "OTA返佣2%"
+      "des": "OTA Commission 2%"
     },
     {
       "id": "OL_6JYQROZGW",
       "am": 160288,
-      "des": "购票"
+      "des": "Order"
     },
     {
       "id": "OL_P0MRR6ZMZ",
       "am": 1603,
-      "des": "出票费2.2欧每人"
+      "des": "Ticketing fee 2.2 euro per traveler"
     }
   ]
 }
 ```
-
-*Confirm Booking Response*
-
-Parameter | Description | 类型         |
+#### Parameters
+Parameter | Description | Type         |
 --------- | ----------- | ----------- |
 id        | ID          |  string    |
-oid       | 订单ID      |  string    |
-cuy       | 币种，EUR, CNY, HKD等    |  string     | 
-p         | 票面价格，最小货币单位     |  integer     |
-co        | 佣金金额，最小货币单位   |  integer     |   
-ta        | 总价格，最小货币单位   |  integer     |
-dt        | 出发日期，格式为yyyy-MM-dd    |  string     | 
-od        | 创建日期UNIX时间戳    |  integer     |  
-lns       | 费用明细    |  array     | 
+oid       | Order ID      |  string    |
+cuy       | Currency, EUR, CNY or HKD    |  string     | 
+p         | Ticket price in cents     |  integer     |
+co        | Commission in cents   |  integer     |   
+ta        | Total price in cents   |  integer     |
+dt        | Departure date, format: yyyy-MM-dd    |  string     | 
+od        | Order date    |  integer     |  
+lns       | List of costs    |  array     | 
 
-费用明细
 
-Parameter | Description | 类型         |  
---------- | ----------- | ----------- |
-id        | ID          |  string    |  
-am        | 费用，最小货币单位     |  integer     |
-des       | 备注        |  string     |
+### Offline Tickets
+Due to DB policy, we have to use offline confirm to book DB train tickets.
 
-## 线下出票
+**接口URL** 
 
-预定德国国家铁路局线下出票，可以通过Offline Confirmation来提交离线订单。
-
-*接口URL*
-
-HTTP POST
 `api/v1/offline_confirmation`
 
-
-> Offline Confirm Request
+Request json for offline booking
 
 ```json
 {
@@ -770,8 +757,97 @@ HTTP POST
 }
 ```
 
+
+### Online Confirm of DB with Payment with Credit Card
+DB requries payment with credit card. Travel will receive ticket right after making payment with credit card.
+
+```ruby
+#!/usr/bin/env ruby
+
+require "digest/md5"
+require 'time'
+require 'net/http'
+require "cgi"
+
+require 'active_support/time'
+require 'active_support/json'
+
+confirm_information = {
+    "online_order_id": "OD_V3G44VG85",
+    "card": {
+      "cn": "349206776921275",
+      "name": "full name",
+      "exp": "202002",
+      "vn": "1234"
+    }
+  }
+
+def signature_of api_key, secret, params = {}
+  time = Time.new.to_i
+  hashdata = {api_key: api_key, t: time}.merge(params.reject {|k, v| v.is_a? Hash}.reject {|k, v| v.is_a? Array}.reject {|k, v| v.nil?})
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
+  result = {
+    "From": api_key,
+    "Date": Time.at(time).httpdate,
+    "Authorization": sign
+  }
+end
+
+#alpha
+api_key = "1fdeae6e7fd44c9e991d21066a828f0c"
+secret = "4dae4d6a-4874-4d60-8eac-67701520671d"
+env = "alpha"
+
+def send_http_post uri, api_key, secret, params
+  res = Net::HTTP.start(uri.host, uri.port,
+    :use_ssl => uri.scheme == 'https') { |http|
+    request = Net::HTTP::Post.new uri
+    signature = signature_of(api_key, secret, params)
+    request["From"]=signature[:From]
+    request["Date"]=signature[:Date]
+    request["Authorization"]=signature[:Authorization]
+    request["content_type"] = 'application/json'
+    request.body = params.to_json
+    response = http.request request # Net::HTTPResponse object
+    async_resp = JSON(response.body)
+  }
+
+end
+
+def send_http_get uri, api_key, secret, params
+  Net::HTTP.start(uri.host, uri.port,
+    :use_ssl => uri.scheme == 'https') { |http|
+    request = Net::HTTP::Get.new uri
+    signature = signature_of(api_key, secret, params)
+    request["From"]=signature[:From]
+    request["Date"]=signature[:Date]
+    request["Authorization"]=signature[:Authorization]
+    response = http.request request # Net::HTTPResponse object
+    async_resp = JSON(response.body)
+  }
+end
+
+begin
+  uri = URI("https://#{env}.api.detie.cn/api/v1/online_confirmationss")
+  async_resp = send_http_post uri, api_key, secret, book_information
+  p async_resp
+  sleep(3)
+
+  get_result_uri = URI("https://#{env}.api.detie.cn/api/v1/async_results/#{async_resp['async']}")
+  50.times do
+    sleep(3)
+    book_result = send_http_get get_result_uri, api_key, secret, {async_key: async_resp['async']}
+    p book_result
+  end
+rescue =>e
+  p e
+end
+
+
+```
+
 ## Security Parameters
-所有请求都需要加上如下三个参数到http header中
+Security parameters are required for all requests in http header.
   
   ```json
   {
@@ -794,30 +870,37 @@ HTTP POST
 end
   ```
 
-关于t，api_key，p的生成规则为如下三步：
-#### 第一步
-  * 其中t表示Date所对应的Unix时间戳
-  * api_key是对应的Api Key，
-  * p是其他参数，结构体参数data不在加密范围内。
+Three steps to generate t, api_key and p
+#### Step 1
+  * t is Unix timestamp
+  * api_key is API Key we sent to you
+  * p is for other parameters. 
+  * Data is not part of md5 encryption
 
-#### 第二步
-  按键值排序，按"key=value+私钥"形式拼接成字符串：
+#### Step 2
+  Concatenate according to 'key=value+private key' into string:
   "api_key=dc7949c48889de1acf7d6904add01771p=something
 t=784887151b086c98345c24e8c3e218add8d6b3107"
-#### 第三步
-  最后对此字符串进行md5加密后作为加密值
+#### Step 3
+  Encrypt with md5
 
-P.S.为了更加直观展示，上述的request都省去了该security params，实际使用中，需要加到HTTP header。
+P.S.To simply the request information, all security paramewters of request example are ignored. 
 
-## 异步获取结果
-请求结果皆为异步返回，返回方式有2种：
-### 1. 通过HTTP Get轮询获取异步结果
-例如：/api/v1/async_results/218c2825aaa29fdee42de4ca9dcdcde6
-会返回JSON格式的请求结果。
+## Retrieve response data with Async call
+All response data is retrieve asynch. There are two ways to retrieve:
+### 1. Query with HTTP Get
 
-### 2. API通过Webhook的方式推送结果
-联系工作人员添加回调的URL，该URL接受跨域的HTTP POST请求，
-请求的格式类似，收到请求后该URL返回200，系统停止重新发送。
+`/api/v1/async_results/218c2825aaa29fdee42de4ca9dcdcde6`
+
+218c2825aaa29fdee42de4ca9dcdcde6 is the async_key returned when posting Search/Book/Confirm
+
+You will receive json format response data once we received response from railway companies. 
+
+### 2. Webhook
+Contact admin or send email to oulu@ul-e.com to add your call back url. Please make sure this url accept cross-domain HTTP Post.
+
+The format of request is similar. Once received request, the url will return 200 and system will not send any longer.
+
 ```json
 {
   key: "a0ec87ee69b8baf72073a5354f48e7d4"
@@ -877,4 +960,3 @@ P.S.为了更加直观展示，上述的request都省去了该security params，
 }
 ```
 
-Now go to the page about [how to make an independent website](independent_site.html).

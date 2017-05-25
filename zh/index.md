@@ -6,6 +6,8 @@ description: To help you book europe trip tickets include DBahn, Italo, and Tren
 locale: zh
 ---
 
+本站提供了调用Grail Trip API的文档。通过Grail Trip的API您可以预定德铁、意铁、法拉利铁路以及欧洲全境通票。
+
 {% assign locale = page.locale%}
 {% assign pages = site.pages | where:"lang", page.locale%}
 {% for page in pages %}
@@ -17,13 +19,4 @@ locale: zh
 <br>
 
 ---
-
-The source for this minimal tutorial is [on github](https://github.com/kbroman/simple_site).
-
-Also see my [tutorials](http://kbroman.org/pages/tutorials) on
-[git/github](http://kbroman.org/github_tutorial),
-[GNU make](http://kbroman.org/minimal_make),
-[knitr](http://kbroman.org/knitr_knutshell),
-[R packages](http://kbroman.org/pkg_primer),
-[data organization](http://kbroman.org/dataorg),
-and [reproducible research](http://kbroman.org/steps2rr).
+如您有更多问题，请联系 [邮箱](mailto:oulu@ul-e.com) 
