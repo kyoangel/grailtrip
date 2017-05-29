@@ -3,7 +3,7 @@
 ## 概述
 本文档介绍了Grail API定义以及使用场景和例子，利用Grail API可以Search, Book, Confirm欧洲铁路(德国铁路局DB Deutsche Bahn, 意大利铁路局Trenitalia, 法拉利铁路Italo)和大巴(Flixbus)的车票。
 
-主要API有三个，分别是Search, Book还有Confirm。
+主要API有四个，分别是Search, Book, Confirm和Download Ticket。
 
 ## Search行程
 
@@ -834,6 +834,45 @@ rescue =>e
 end
 
 
+```
+
+## 下载车票
+
+Confirm成功之后，就可以下载电子车票。不同的公司生成车票的方式不同，有的同步，有的异步通知，所以在Confirm成功和能够下载车票，可能会有一段时间。
+
+> 每个request，都需要提供security params
+
+### 下载车票 Request
+
+`Get /v1/online_orders/{online_order_id}/online_tickets`
+
+该操作为同步调用，返回车票下载的网址数组。
+
+下面例子展示了下载的Request json
+```json
+  {
+    "online_order_id": "OC_LOEON67VG"
+  }
+
+```
+下载车票最主要的是需要online_order_id。
+
+
+#### 参数说明
+Parameter | Description | 类型         |
+--------- | ----------- | ----------- |
+online_order_id         | Book Response中id字段    |  string     |
+
+### 下载车票 Response
+
+```json
+{
+  
+  [
+    "http://ticketsdev.ul-e.com/tickets/test1.pdf",
+    "http://ticketsdev.ul-e.com/tickets/test2.pdf"    
+  ]
+}
 ```
 
 ## Security Parameters
