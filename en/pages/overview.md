@@ -10,7 +10,7 @@ description: Grail API Document
 ## Introduction
 This article explains the APIs of Grail and how to use them to Search, Book and Confirm tickets of Europe Railways (DB Deutsche Bahn, Trenitalia, Italo) and buses (flixbus).
 
-You only need three APIs to accomplish the very basic ticket search and booking scenario.
+You only need four APIs to accomplish the very basic ticket search and booking scenario including Search, Book, Confirm, Download.
 
 ## Search for Journey Solutions
 
@@ -844,6 +844,38 @@ rescue =>e
 end
 
 
+```
+### Download Ticket Request
+
+`Get /v1/online_orders/{online_order_id}/online_tickets`
+
+This is a sync call, it will return urls of tickets.
+
+The following example is a download request json
+```json
+  {
+    "online_order_id": "OC_LOEON67VG"
+  }
+
+```
+The only parameter is online_order_id.
+
+
+#### Parameters
+Parameter | Description | Type         |
+--------- | ----------- | ----------- |
+online_order_id         | Online Order ID    |  string     |
+
+### Download Ticket Response
+
+```json
+{
+  
+  [
+    "http://ticketsdev.ul-e.com/tickets/test1.pdf",
+    "http://ticketsdev.ul-e.com/tickets/test2.pdf"    
+  ]
+}
 ```
 
 ## Security Parameters
