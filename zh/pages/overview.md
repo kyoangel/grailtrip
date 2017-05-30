@@ -965,7 +965,7 @@ P.S.为了更加直观展示，上述的request都省去了该security params，
 ```json
 {
   "key": "a0ec87ee69b8baf72073a5354f48e7d4"
-  "result": [
+  "result" [
     {
       "rw": "DB",
       "dt": "2017-02-23",

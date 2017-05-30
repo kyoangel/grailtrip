@@ -893,7 +893,6 @@ online_order_id         | Online Order ID    |  string     |
 
 ```json
 {
-  
   "tkt_urls":
   [
     "http://ticketsdev.ul-e.com/tickets/test1.pdf",
@@ -968,7 +967,7 @@ The format of request is similar. Once received request, the url will return 200
 ```json
 {
   "key": "a0ec87ee69b8baf72073a5354f48e7d4"
-  "result": [
+  "result" [
     {
       "rw": "DB",
       "dt": "2017-02-23",
