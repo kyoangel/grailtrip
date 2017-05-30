@@ -44,12 +44,12 @@ description: Overview of construction of a website with GitHub Pages
 #### 参数说明
 
 Parameter | 类型 |  Description        | 
---------- | ----------| ----------- |
-s         | string    |  起始站编码     |
-d         | string    |  终点站编码     |     
-dt        | string    |  出发日期，格式为yyyy-MM-dd HH:mm     | 
-na        | integer   |  成年人人数     |   
-nc        | integer   |  儿童人数       | 
+--------- | ----------- | ----------- |
+s         | 起始站编码    |  string     |
+d         | 终点站编码    |  string     |     
+dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     | 
+na        | 成年人人数    |  integer     |   
+nc        | 儿童人数      |  integer     | 
 
 搜索Response，返回结果包括意铁(TI)和法拉利铁路(NTV)的行程，因为在罗马和米兰之间有两个铁路公司Trenitalia, NTV。
 
