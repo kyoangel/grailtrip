@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Grail Trip
-tagline: Your Trip Solution Across Europe
+tagline: Travel planner in Europe
 description: To help you book europe trip tickets include DBahn, Italo, and Trenitalia
 locale: zh
 ---
