@@ -131,6 +131,7 @@ res       | 需要订座      | enum mandatory, optional, N/A      |
 ni        | 换车次数    |  integer     | 
 secs      | Sections，行程中的不同车型，详见Sections信息表格    |  array     | 
 
+
 **rw铁路公司编码**
 
 铁路公司 | 英文名 | 值         |  
@@ -139,7 +140,8 @@ secs      | Sections，行程中的不同车型，详见Sections信息表格    
 德铁         | DbBahn    |  DB     |     
 法拉利铁路        | Italo    |  NTV     | 
 
-**Section信息**
+**Section信息**  
+
 因为不同铁路路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
 
 Parameter | Description | 类型         |  
@@ -152,7 +154,8 @@ dn        | 终点站站名    |  string     |
 offers    | Offer列表，详见Offer表格    |  array     |  
 trzs      | 列车列表，详见列车表格    |  array     |  
 
-**Offer信息**
+**Offer信息**  
+
 不同铁路公司以及不同的车型会有不同的折扣类型，通称为Offer。
 
 Parameter | Description | 类型         |  
@@ -161,8 +164,10 @@ o        | Offer Code  |  string     |
 od         | Offer Description    |  string     |
 svcs        | 舱位列表，详见services信息表格    |  array     | 
 
-**Service信息**
+**Service信息**  
+
 不同的铁路公司以及不同的车型会有不同的舱位，通称为Service
+
 Parameter | Description | 类型         |  
 --------- | ----------- | ----------- |
 sa        | 剩余席位  |  integer     | 
@@ -328,6 +333,7 @@ end
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
 `GET /v1/async_results/{async_key}`
+
 获取真实结果。
 
 下面例子展示了Book 2017年2月16日中午12点从罗马到米兰的高铁(FR 9626)，Executive舱的Request json
@@ -405,6 +411,7 @@ o         | Offer Code    |  string     |
 st        | Service Code    |  string     | 
 
 ### Book Response
+
 下面例子展示了Book 2017年2月16日中午12点从罗马到米兰的高铁(FR 9626)，Executive舱的Response json
 ```json
 {
@@ -641,7 +648,6 @@ end
 
 ## Confirm行程
 
-
 Book之后，需要在三十分钟内Confirm Booking，才会正式出票
 
 > 每个request，都需要提供security params
@@ -673,12 +679,13 @@ Book之后，需要在三十分钟内Confirm Booking，才会正式出票
 Confirm最主要的是需要online_order_id。如果需要订购德铁车票，如果希望在线确认，需要提供信用卡信息和是否订座信息，另外只有德铁的车次需要注明是否订座，订座费每人2.5欧元。
 
 #### 参数说明
+
 Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 online_order_id         | Book Response中id字段    |  string     |
 card        | 信用卡信息，详见信用卡信息信息表格    |  详见信用卡信息     | 
 
-信用卡信息
+**信用卡信息**
 
 Parameter | Description | 类型         |  
 --------- | ----------- | ----------- |
@@ -719,6 +726,7 @@ exp         | 信用卡截止日期，格式为yyyyMM    |  string     |
 }
 ```
 #### 参数说明
+
 Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 id        | ID          |  string    |
@@ -733,6 +741,7 @@ lns       | 费用明细    |  array     |
 
 
 ### 线下出票
+
 预定德国国家铁路局线下出票，可以通过Offline Confirmation来提交离线订单。
 
 **接口URL** 
@@ -754,7 +763,8 @@ HTTP POST
 ```
 
 
-### 信用卡线上支付
+### 信用卡线上支付  
+
 德国国家铁路局Online Confirm需要使用信用卡支付票款。通过信用卡支付可以立即出票。
 
 ```ruby
@@ -864,7 +874,8 @@ Confirm成功之后，就可以下载电子车票。不同的公司生成车票�
 下载车票最主要的是需要online_order_id。
 
 
-#### 参数说明
+#### 参数说明  
+
 Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 online_order_id         | Book Response中id字段    |  string     |
@@ -881,7 +892,8 @@ online_order_id         | Book Response中id字段    |  string     |
 }
 ```
 
-## Security Parameters
+## Security Parameters  
+
 所有请求都需要加上如下三个参数到http header中
   
   ```json
@@ -905,30 +917,41 @@ online_order_id         | Book Response中id字段    |  string     |
 end
   ```
 
-关于t，api_key，p的生成规则为如下三步：
+关于t，api_key，p的生成规则为如下三步：  
+
 #### 第一步
+
   * 其中t表示Date所对应的Unix时间戳
   * api_key是对应的Api Key，
   * p是其他参数，结构体参数data不在加密范围内。
 
 #### 第二步
+
   按键值排序，按"key=value+私钥"形式拼接成字符串：
   "api_key=dc7949c48889de1acf7d6904add01771p=something
 t=784887151b086c98345c24e8c3e218add8d6b3107"
+
 #### 第三步
+
   最后对此字符串进行md5加密后作为加密值
 
 P.S.为了更加直观展示，上述的request都省去了该security params，实际使用中，需要加到HTTP header。
 
 ## 异步获取结果
+
 请求结果皆为异步返回，返回方式有2种：
+
 ### 1. 通过HTTP Get轮询获取异步结果
+
 例如：/api/v1/async_results/218c2825aaa29fdee42de4ca9dcdcde6
+
 会返回JSON格式的请求结果。
 
 ### 2. API通过Webhook的方式推送结果
+
 联系工作人员添加回调的URL，该URL接受跨域的HTTP POST请求，
 请求的格式类似，收到请求后该URL返回200，系统停止重新发送。
+
 ```json
 {
   key: "a0ec87ee69b8baf72073a5354f48e7d4"
