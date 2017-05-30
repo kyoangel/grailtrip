@@ -23,4 +23,4 @@ locale: zh
 <br>
 
 ---
-如您有更多问题，请联系 [邮箱](mailto:oulu@ul-e.com) 
+如您有更多问题，请联系[我们](mailto:oulu@ul-e.com) 
