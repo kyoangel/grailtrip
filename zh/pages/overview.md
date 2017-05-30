@@ -189,7 +189,9 @@ arr       | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     |
 
 
 下面是搜索一位成年旅客(na = 1)，在2017年4月1日(dt)，从罗马特米尼站(罗马火车总站，车站编码'ST_EZVVG1X5')到米兰中央火车站(车站编码，'ST_D8NNN9ZK')的车次、车票和价格信息的示例代码
+
 > Ruby版
+
 ```ruby
 #!/usr/bin/env ruby
 
@@ -413,6 +415,7 @@ st        | Service Code    |  string     |
 ### Book Response
 
 下面例子展示了Book 2017年2月16日中午12点从罗马到米兰的高铁(FR 9626)，Executive舱的Response json
+
 ```json
 {
   "id": "OD_37Y7KNM0P",
@@ -541,7 +544,9 @@ tg        | 对应ID      | string      |
 des       | 备注        |  string     |
 
 下面是Book 2017年2月16日中午12点从罗马到米兰的高铁(意大利国家铁路Trenitalia, FR 9626)Executive舱的示例代码
+
 > Ruby版
+
 ```ruby
 #!/usr/bin/env ruby
 
@@ -664,6 +669,7 @@ Book之后，需要在三十分钟内Confirm Booking，才会正式出票
 获取真实结果。
 
 下面例子展示了Confirm2017年2月16日中午12点从罗马到米兰的高铁(FR 9626)，Executive舱的Request json
+
 ```json
   {
     "online_order_id": "OD_V3G44VG85",
@@ -865,6 +871,7 @@ Confirm成功之后，就可以下载电子车票。不同的公司生成车票�
 该操作为同步调用，返回车票下载的网址数组。
 
 下面例子展示了下载的Request json
+
 ```json
   {
     "online_order_id": "OC_LOEON67VG"
@@ -883,13 +890,10 @@ online_order_id         | Book Response中id字段    |  string     |
 ### 下载车票 Response
 
 ```json
-{
-  
   [
     "http://ticketsdev.ul-e.com/tickets/test1.pdf",
     "http://ticketsdev.ul-e.com/tickets/test2.pdf"    
   ]
-}
 ```
 
 ## Security Parameters  
