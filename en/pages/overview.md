@@ -546,8 +546,8 @@ am        | Cost in cents     |  integer     |
 at        | Account type, master, slave, credit_card| string|
 lt        | debit or credit |   string |
 cg        | Type     | string      |
-tg        | 对应id      | string      |
-des       | 备注        |  string     |
+tg        | id      | string      |
+des       | Description        |  string     |
 
 The following is ruby sample code for above book request.
 
@@ -1001,7 +1001,7 @@ The format of request is similar. Once received request, the url will return 200
                   "sa": 999,
                   "p": 8000,
                   "sc": "8030001",
-                  "sd": "一等座"
+                  "sd": "1st Class"
                 }
               ]
             }
