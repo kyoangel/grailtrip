@@ -6,6 +6,13 @@ description: To help you book europe trip tickets include DBahn, Italo, Trenital
 locale: en
 ---
 
+As official API Consolidator of [Deutsche Bahn](https://www.bahn.com/i/view/index.shtml)(DB)，[Trenitalia](trenitalia.com)，[Italo](italotreno.it/en) and biggest bus company [Flixbus](flixbus.com), Grail provides integrated access to APIs and data of major railway and bus companies in Europe. 
+
+In addition to search and book tickets from our webpage, you can also integrate with Grail API (Search, Book, Confirm and Download ticket) such that you can sell tickets on your own webpage and Apps.
+
+It is not hard to integrate with Grail API. Please refer to the following API documents below.
+
+
 {% assign locale = page.locale%}
 {% assign pages = site.pages | where:"lang", page.locale%}
 {% for page in pages %}
@@ -14,22 +21,4 @@ locale: en
   </li>
 {% endfor %}
 
-<br>
 
-If anything here is confusing (or _wrong_!), or if I've missed
-important details, please
-[submit an issue](https://github.com/kbroman/simple_site/issues), or (even
-better) fork [the GitHub repository for this website](https://github.com/kbroman/simple_site),
-make modifications, and submit a pull request.
-
----
-
-The source for this minimal tutorial is [on github](https://github.com/kbroman/simple_site).
-
-Also see my [tutorials](http://kbroman.org/pages/tutorials) on
-[git/github](http://kbroman.org/github_tutorial),
-[GNU make](http://kbroman.org/minimal_make),
-[knitr](http://kbroman.org/knitr_knutshell),
-[R packages](http://kbroman.org/pkg_primer),
-[data organization](http://kbroman.org/dataorg),
-and [reproducible research](http://kbroman.org/steps2rr).
