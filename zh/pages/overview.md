@@ -326,6 +326,7 @@ end
 ## Book行程
 
 > 每个request，都需要提供security params
+
 > API会采用异步查询的方式获得结果。
 
 ### Book Request
@@ -656,6 +657,7 @@ end
 Book之后，需要在三十分钟内Confirm Booking，才会正式出票
 
 > 每个request，都需要提供security params
+
 > API会采用异步查询的方式获得结果。
 
 ### Confirm Request
@@ -890,10 +892,14 @@ online_order_id         | Book Response中id字段    |  string     |
 ### 下载车票 Response
 
 ```json
+{
+  "tkt_urls":
   [
     "http://ticketsdev.ul-e.com/tickets/test1.pdf",
     "http://ticketsdev.ul-e.com/tickets/test2.pdf"    
   ]
+}
+  
 ```
 
 ## Security Parameters  
