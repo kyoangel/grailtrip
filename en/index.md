@@ -2,7 +2,7 @@
 layout: page
 title: Grail Trip
 tagline: Your Trip Solution Across Europe
-description: To help you book europe trip tickets include DBahn, Italo, and Trenitalia
+description: To help you book europe trip tickets include DBahn, Italo, Trenitalia and Flixbus
 locale: en
 ---
 

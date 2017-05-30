@@ -6,7 +6,11 @@ description: To help you book europe trip tickets include DBahn, Italo, and Tren
 locale: zh
 ---
 
-本站提供了调用Grail Trip API的文档。通过Grail Trip的API您可以预定德铁、意铁、法拉利铁路以及欧洲全境通票。
+作为[德国铁路局](https://www.bahn.com/i/view/index.shtml)(DB Deutsche Bahn)，[意铁](trenitalia.com)(Trenitalia)，[法拉利铁路公司](italotreno.it/en)(Italo)以及欧洲最大的长途大巴公司[Flixbus](flixbus.com)的认证API集成商(Consolidator)，Grail集成了欧洲各大铁路公司以及大巴公司的数据以及数据接口，为到欧洲旅游的游客提供集成订票服务。
+
+除了通过网页预定，您的网站或者App也可以通过与Grail的集成API集成，通过我们的API，您可以在你自己的页面上搜索、预定德铁、意铁、法拉利铁路、欧洲全境通票以及Flixbus大巴车票。
+
+想要了解如何集成Grail API，可以参考Grail Trip API的文档
 
 {% assign locale = page.locale%}
 {% assign pages = site.pages | where:"lang", page.locale%}
