@@ -1,7 +1,7 @@
 ---
 layout: page
 lang: zh
-title: Grail API文档介绍
+title: Grail API文档
 description: Overview of construction of a website with GitHub Pages
 ---
 
