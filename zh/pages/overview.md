@@ -8,7 +8,7 @@ description: Overview of construction of a website with GitHub Pages
 ## 概述
 本文档介绍了Grail API定义以及使用场景和例子，利用Grail API可以Search, Book, Confirm欧洲铁路(德国铁路局DB Deutsche Bahn, 意大利铁路局Trenitalia, 法拉利铁路Italo)和大巴(Flixbus)的车票。
 
-主要API有四个，分别是Search, Book, Confirm和Download Ticket。
+主要API有四个，分别是**Search**, **Book**, **Confirm**和**Download** Ticket。
 
 ## Search行程
 
@@ -908,9 +908,9 @@ online_order_id         | Book Response中id字段    |  string     |
   
   ```json
   {
-    From: "ad53f5806e634e698c0f0f04e628444d", 
-    Date:"Mon, 13 Mar 2017 09:29:43 GMT", 
-    Authorization: "aafb519dddcb782b9a0e727ffeacf6bc"
+    "From": "ad53f5806e634e698c0f0f04e628444d", 
+    "Date":"Mon, 13 Mar 2017 09:29:43 GMT", 
+    "Authorization": "aafb519dddcb782b9a0e727ffeacf6bc"
   }
   ```
 
@@ -964,8 +964,8 @@ P.S.为了更加直观展示，上述的request都省去了该security params，
 
 ```json
 {
-  key: "a0ec87ee69b8baf72073a5354f48e7d4"
-  result: [
+  "key": "a0ec87ee69b8baf72073a5354f48e7d4"
+  "result": [
     {
       "rw": "DB",
       "dt": "2017-02-23",
@@ -1021,4 +1021,3 @@ P.S.为了更加直观展示，上述的request都省去了该security params，
 }
 ```
 
-Now go to the page about [how to make an independent website](independent_site.html).

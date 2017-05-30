@@ -10,7 +10,7 @@ description: Grail API Document
 ## Introduction
 This article explains the APIs of Grail and how to use them to Search, Book and Confirm tickets of Europe Railways (DB Deutsche Bahn, Trenitalia, Italo) and buses (flixbus).
 
-You only need four APIs to accomplish the very basic ticket search and booking scenario including Search, Book, Confirm, Download.
+You only need four APIs to accomplish the very basic ticket search and booking scenario including **Search**, **Book**, **Confirm**, **Download** tickets.
 
 ## Search for Journey Solutions
 
@@ -44,6 +44,7 @@ Next is request json for a search request for an adult traveler, from 12:00 pm o
 ```
 
 #### Parameters
+
 Parameter | Description | Type         |
 --------- | ----------- | ----------- |
 s         | Departure station code    |  string     |
@@ -56,7 +57,9 @@ The response json message include data of both Trenitalia (TI) and Italo (NTV) b
 
 
 ### Search Response  
+
 The following is response json for a search request from Roma Termini to Milano Centrale
+
 ```json
   [
     {
@@ -117,6 +120,7 @@ The following is response json for a search request from Roma Termini to Milano 
   }
 ]
 ```
+
 #### Parameters
 
 Parameter | Description | Type         |  
@@ -132,6 +136,7 @@ res       | Seat reservation      | enum mandatory, optional, N/A      |
 ni        | Number of changes    |  integer     | 
 secs      | Sections， based on different types of trains, for details see Section information    |  array     | 
 
+
 **rw Railway Code**
 
 Railway | Name | Value         |  
@@ -140,8 +145,10 @@ Italy         | Trenitalia    |  TI    |
 Germany         | DbBahn    |  DB     |     
 Italy        | Italo    |  NTV     | 
 
-**Section**
+**Section**  
+
 Because different railway companies have different kinds of trains, and the offer and service (coach class), many railway companies split the entire journey solutions into multiple sections and for each section, the offers and services are the same.
+
 Parameter | Description | Type         |  
 --------- | ----------- | ----------- |
 id        | Section ID  |  string     | 
@@ -152,7 +159,8 @@ dn        | Destination station name    |  string     |
 offers    | Offer list    |  array     |  
 trzs      | Train list    |  array     |  
 
-**Offer**
+**Offer**  
+
 Railway companies have different discount for their tickets, it is called Offer.
 
 Parameter | Description | Type         |  
@@ -161,7 +169,8 @@ o        | Offer Code  |  string     |
 od         | Offer Description    |  string     |
 svcs        | Services list, see service table    |  array     | 
 
-**Service**
+**Service**  
+
 Trains have different coach classes, we call it Service.
 
 Parameter | Description | Type         |  
@@ -171,7 +180,7 @@ p         | Price (in cents)     |  integer     |
 sc        | Service Code    |  string     | 
 sd        | Service Description    |  string     | 
 
-**Train**
+**Train**  
 
 Parameter | Description | 类型         |  
 --------- | ----------- | ----------- |
@@ -187,6 +196,7 @@ arr       | Arrival date time, format: :yyyy-MM-dd HH:mm    |  string     |
 The following is sample code to search for journey solutions from both Trenitalia and Italo for an adult traveler, on April 1st, 2017, from Roma Termini to Milano Centrale
 
 > Ruby
+
 ```ruby
 #!/usr/bin/env ruby
 
@@ -331,6 +341,7 @@ end
 This is an async call, an async-key will be returned. Try to use
 
 `GET /v1/async_results/{async_key}`
+
 to retrieve response data.
 
 The following is book request json for a ticket for train FR 9626 from Roma to Milano, Executive service, base offer
@@ -379,7 +390,7 @@ psgs       | Traveler information, see Traveler table    |  array     |
 sec        | Section information, see Section table    |  array     | 
 res       | Flag for seat reservation, DB only    |  boolean     |
 
-**Contact**
+**Contact**  
 
 Parameter | Description | Type         |
 --------- | ----------- | ----------- |
@@ -389,7 +400,7 @@ post      | Post code    |  string     |
 ph        | Phone number    |  string     | 
 add       | Mailing address    |  string     | 
 
-**Traveler**
+**Traveler**  
 
 Parameter | Description | Type         |
 --------- | ----------- | ----------- |
@@ -399,7 +410,7 @@ birth      | Birthday, format: yyyy-MM-dd    |  string     |
 pt        | Passport number    |  string     | 
 exp       | Expiration date of Passport, Format: yyyy-MM-dd    |  string     | 
 
-**Sections**
+**Sections**  
 
 Parameter | Description | 类型         |  
 --------- | ----------- | ----------- |
@@ -407,8 +418,10 @@ id        | Section ID  |  string     |
 o         | Offer Code    |  string     |
 st        | Service Code    |  string     | 
 
-### Book Response
+### Book Response  
+
 The following is response json for the book request above.
+
 ```json
 {
   "id": "OD_37Y7KNM0P",
@@ -482,7 +495,7 @@ The following is response json for the book request above.
   ]
 }
 ```
-#### Parameters
+#### Parameters  
 
 Parameter | Description | Type         |  
 --------- | ----------- | ----------- |
@@ -500,7 +513,7 @@ psgs      | List of travelers    | array      |
 tks       | List of tickets    |  array     | 
 lns       | List of fee    | array      |
 
-**Traveler**
+**Traveler**  
 
 Parameter | Description | Type         |
 --------- | ----------- | ----------- |
@@ -513,7 +526,7 @@ e         | Email       | string |
 pt        | Passport    |  string     | 
 exp       | Expiration date of passport, Format: yyyy-MM-dd    |  string     | 
 
-**Ticket**
+**Ticket**  
 
 Parameter | Description | Type         |  
 --------- | ----------- | ----------- |
@@ -524,7 +537,7 @@ d         | Destination station code    |  string     |
 st        | Departure date time, format: yyyy-MM-dd HH:mm    |  string     | 
 dt        | Arrival date time, format: yyyy-MM-dd HH:mm    |  string     | 
 
-**Fee**
+**Fee**  
 
 Parameter | Description | Type         |  
 --------- | ----------- | ----------- |
@@ -662,6 +675,7 @@ This is an async call, an async-key will be returned. Try to use
 to retrieve response data.
 
 The following is Request json for the booking above
+
 ```json
   {
     "online_order_id": "OD_V3G44VG85",
@@ -674,9 +688,11 @@ The following is Request json for the booking above
   }
 
 ```
+
 The most important parameter is online_order_id. If booking Db ticket, please provide credit card and whether to reserve seat. Only DB needs to specify whether to reserve a seat and the servation fee is 2.5 euro per seat.
 
-#### Parameters
+#### Parameters  
+
 Parameter | Description | Type         |
 --------- | ----------- | ----------- |
 online_order_id         | Id in Book Response json    |  string     |
@@ -722,7 +738,9 @@ exp         | Expiration date, format:yyyyMM    |  string     |
   ]
 }
 ```
-#### Parameters
+
+#### Parameters  
+
 Parameter | Description | Type         |
 --------- | ----------- | ----------- |
 id        | ID          |  string    |
@@ -736,7 +754,8 @@ od        | Order date    |  integer     |
 lns       | List of costs    |  array     | 
 
 
-### Offline Tickets
+### Offline Tickets  
+
 Due to DB policy, we have to use offline confirm to book DB train tickets.
 
 **接口URL** 
@@ -759,6 +778,7 @@ Request json for offline booking
 
 
 ### Online Confirm of DB with Payment with Credit Card
+
 DB requries payment with credit card. Travel will receive ticket right after making payment with credit card.
 
 ```ruby
@@ -852,16 +872,19 @@ end
 This is a sync call, it will return urls of tickets.
 
 The following example is a download request json
+
 ```json
   {
     "online_order_id": "OC_LOEON67VG"
   }
 
 ```
+
 The only parameter is online_order_id.
 
 
-#### Parameters
+#### Parameters  
+
 Parameter | Description | Type         |
 --------- | ----------- | ----------- |
 online_order_id         | Online Order ID    |  string     |
@@ -871,6 +894,7 @@ online_order_id         | Online Order ID    |  string     |
 ```json
 {
   
+  "tkt_urls":
   [
     "http://ticketsdev.ul-e.com/tickets/test1.pdf",
     "http://ticketsdev.ul-e.com/tickets/test2.pdf"    
@@ -883,9 +907,9 @@ Security parameters are required for all requests in http header.
   
   ```json
   {
-    From: "ad53f5806e634e698c0f0f04e628444d", 
-    Date:"Mon, 13 Mar 2017 09:29:43 GMT", 
-    Authorization: "aafb519dddcb782b9a0e727ffeacf6bc"
+    "From": "ad53f5806e634e698c0f0f04e628444d", 
+    "Date":"Mon, 13 Mar 2017 09:29:43 GMT", 
+    "Authorization": "aafb519dddcb782b9a0e727ffeacf6bc"
   }
   ```
 
@@ -902,25 +926,32 @@ Security parameters are required for all requests in http header.
 end
   ```
 
-Three steps to generate t, api_key and p
-#### Step 1
+Three steps to generate t, api_key and p  
+
+#### Step 1  
+
   * t is Unix timestamp
   * api_key is API Key we sent to you
   * p is for other parameters. 
   * Data is not part of md5 encryption
 
-#### Step 2
+#### Step 2  
+
   Concatenate according to 'key=value+private key' into string:
   "api_key=dc7949c48889de1acf7d6904add01771p=something
 t=784887151b086c98345c24e8c3e218add8d6b3107"
-#### Step 3
+
+#### Step 3  
+
   Encrypt with md5
 
 P.S.To simply the request information, all security paramewters of request example are ignored. 
 
-## Retrieve response data with Async call
+## Retrieve response data with Async call  
+
 All response data is retrieve asynch. There are two ways to retrieve:
-### 1. Query with HTTP Get
+
+### 1. Query with HTTP Get  
 
 `/api/v1/async_results/218c2825aaa29fdee42de4ca9dcdcde6`
 
@@ -928,15 +959,16 @@ All response data is retrieve asynch. There are two ways to retrieve:
 
 You will receive json format response data once we received response from railway companies. 
 
-### 2. Webhook
+### 2. Webhook  
+
 Contact admin or send email to oulu@ul-e.com to add your call back url. Please make sure this url accept cross-domain HTTP Post.
 
 The format of request is similar. Once received request, the url will return 200 and system will not send any longer.
 
 ```json
 {
-  key: "a0ec87ee69b8baf72073a5354f48e7d4"
-  result: [
+  "key": "a0ec87ee69b8baf72073a5354f48e7d4"
+  "result": [
     {
       "rw": "DB",
       "dt": "2017-02-23",
