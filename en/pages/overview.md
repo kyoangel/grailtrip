@@ -2,7 +2,7 @@
 layout: page
 lang: en
 title: Grail API Document
-description: Grail API Document
+description: To help you search, compare, book Europe ground transportation tickets include DBahn, Italo, Trenitalia and Flixbus
 ---
 
 # Grail API Document

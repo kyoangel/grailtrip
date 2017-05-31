@@ -1,12 +1,13 @@
 ---
 layout: page
 title: Grail Trip
-tagline: Your Trip Solution Across Europe
+tagline: Ground Travel planner in Europe
 description: To help you book europe trip tickets include DBahn, Italo, and Trenitalia
 locale: en
 ---
 
-This website provides a series of documents for you on how to consume the Grail Trip API, in order to search and reserve tickets from DB, Italo and Trenitalia. 
+As the first licensed API Consolidator of Deutsche Bahn (DB, German Railway), Trenitalia (Italy Railway), Italo and Flixbus, Grail provides unified and simplified APIs to search (compare), book railway and bus tickets in Europe. 
+
 
 {% assign locale = page.locale%}
 {% assign pages = site.pages | where:"lang", page.locale%}
@@ -21,5 +22,5 @@ This website provides a series of documents for you on how to consume the Grail 
 
 ---
 
-For further information, please contact us at this [Email](mailto: oulu@ul-e.com).
+For further information, please contact [us](mailto: oulu@ul-e.com). 
 

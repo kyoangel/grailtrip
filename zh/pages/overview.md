@@ -2,7 +2,7 @@
 layout: page
 lang: zh
 title: Grail API文档
-description: Overview of construction of a website with GitHub Pages
+description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大巴）车票
 ---
 
 ## 概述

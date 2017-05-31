@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Grail Trip
-tagline: 欧洲旅行交通向导
+tagline: 欧洲陆路交通向导
 description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大巴）车票
 locale: zh
 ---
