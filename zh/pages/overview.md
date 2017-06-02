@@ -24,7 +24,7 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
-`GET /v1/async_results/{async_key}` 
+`GET /v1/async_results/{async_key}`
 
 获取真实结果。
 
@@ -43,53 +43,53 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 
 #### 参数说明
 
-Parameter | 类型 |  Description        | 
+Parameter | 类型 |  Description        |
 --------- | ----------- | ----------- |
 s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     |     
-dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     | 
-na        | 成年人人数    |  integer     |   
-nc        | 儿童人数      |  integer     | 
+d         | 终点站编码    |  string     |
+dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     |
+na        | 成年人人数    |  integer     |
+nc        | 儿童人数      |  integer     |
 
 搜索Response，返回结果包括意铁(TI)和法拉利铁路(NTV)的行程，因为在罗马和米兰之间有两个铁路公司Trenitalia, NTV。
 
 
-### Search Response  
+### Search Response
 罗马到米兰搜索Response的json
 ```json
   [
     {
-      "rw":"TI", 
-      "dt":"2017-02-17", 
+      "rw":"TI",
+      "dt":"2017-02-17",
       "dur":"02:55",
-      "s":"ST_D8NNN9ZK", 
+      "s":"ST_D8NNN9ZK",
       "d":"ST_EZVVG1X5",
-      "sn":"Roma Termini(意大利-罗马火车总站(特米尼))", 
+      "sn":"Roma Termini(意大利-罗马火车总站(特米尼))",
       "dn":"Milano Centrale(意大利-米兰中央总站)",
       "res":"N/A",
-      "ni":0, 
+      "ni":0,
       "secs":[
         {
           "id":"SC_1CO4FO2",
-          "s":"ST_D8NNN9ZK", 
-          "d":"ST_EZVVG1X5", 
-          "sn":"Roma Termini(意大利-罗马火车总站(特米尼))", 
-          "dn":"Milano Centrale(意大利-米兰中央总站)", 
+          "s":"ST_D8NNN9ZK",
+          "d":"ST_EZVVG1X5",
+          "sn":"Roma Termini(意大利-罗马火车总站(特米尼))",
+          "dn":"Milano Centrale(意大利-米兰中央总站)",
           "offers":[
             {
-              "o":"1|1|0|ITA", 
-              "od":"全价票", 
+              "o":"1|1|0|ITA",
+              "od":"全价票",
               "svcs":[
                 {
-                  "sa":10, 
+                  "sa":10,
                   "p":22000,
-                  "sc":"30000|1", 
+                  "sc":"30000|1",
                   "sd":"30000"
-                }, 
+                },
                 {
-                  "sa":41, 
-                  "p":12200, 
-                  "sc":"30002|1", 
+                  "sa":41,
+                  "p":12200,
+                  "sc":"30002|1",
                   "sd":"30002"
                 }
               ]
@@ -97,93 +97,93 @@ nc        | 儿童人数      |  integer     |
           ],
           "trzs":[
             {
-              "trz":"FR 9626", 
-              "s":"ST_D8NNN9ZK", 
-              "d":"ST_EZVVG1X5", 
-              "sn":"Roma Termini(意大利-罗马火车总站(特米尼))", 
-              "dn":"Milano Centrale(意大利-米兰中央总站)", 
-              "dep":"2017-02-17 12:00", 
+              "trz":"FR 9626",
+              "s":"ST_D8NNN9ZK",
+              "d":"ST_EZVVG1X5",
+              "sn":"Roma Termini(意大利-罗马火车总站(特米尼))",
+              "dn":"Milano Centrale(意大利-米兰中央总站)",
+              "dep":"2017-02-17 12:00",
               "arr":"2017-02-17 14:55"
             }
           ]
-        }  
+        }
       ]
   },
   {
-      "rw":"NTV", 
-      "dt":"2017-02-17", 
+      "rw":"NTV",
+      "dt":"2017-02-17",
       "other information": "more information"
   }
 ]
 ```
 #### 参数说明
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-rw         | 铁路公司编码    |  string    |     
-dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     | 
-dur        | 时长，格式为HH:mm    |  string     |   
+rw         | 铁路公司编码    |  string    |
+dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     |
+dur        | 时长，格式为HH:mm    |  string     |
 s         | 起始站编码    |  string     |
 sn        | 起点站站名    |  string     |
-d         | 终点站编码    |  string     | 
-dn        | 终点站站名    |  string     |  
+d         | 终点站编码    |  string     |
+dn        | 终点站站名    |  string     |
 res       | 需要订座      | enum mandatory, optional, N/A      |
-ni        | 换车次数    |  integer     | 
-secs      | Sections，行程中的不同车型，详见Sections信息表格    |  array     | 
+ni        | 换车次数    |  integer     |
+secs      | Sections，行程中的不同车型，详见Sections信息表格    |  array     |
 
 
 **rw铁路公司编码**
 
-铁路公司 | 英文名 | 值         |  
+铁路公司 | 英文名 | 值         |
 --------- | ----------- | ----------- |
-意铁         | Trenitalia    |  TI    | 
-德铁         | DbBahn    |  DB     |     
-法拉利铁路        | Italo    |  NTV     | 
+意铁         | Trenitalia    |  TI    |
+德铁         | DbBahn    |  DB     |
+法拉利铁路        | Italo    |  NTV     |
 
-**Section信息**  
+**Section信息**
 
 因为不同铁路路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-id        | Section ID  |  string     | 
+id        | Section ID  |  string     |
 s         | 起始站编码    |  string     |
-sn        | 起点站站名    |  string     | 
-d         | 终点站编码    |  string     | 
-dn        | 终点站站名    |  string     |  
-offers    | Offer列表，详见Offer表格    |  array     |  
-trzs      | 列车列表，详见列车表格    |  array     |  
+sn        | 起点站站名    |  string     |
+d         | 终点站编码    |  string     |
+dn        | 终点站站名    |  string     |
+offers    | Offer列表，详见Offer表格    |  array     |
+trzs      | 列车列表，详见列车表格    |  array     |
 
-**Offer信息**  
+**Offer信息**
 
 不同铁路公司以及不同的车型会有不同的折扣类型，通称为Offer。
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-o        | Offer Code  |  string     | 
+o        | Offer Code  |  string     |
 od         | Offer Description    |  string     |
-svcs        | 舱位列表，详见services信息表格    |  array     | 
+svcs        | 舱位列表，详见services信息表格    |  array     |
 
-**Service信息**  
+**Service信息**
 
 不同的铁路公司以及不同的车型会有不同的舱位，通称为Service
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-sa        | 剩余席位  |  integer     | 
+sa        | 剩余席位  |  integer     |
 p         | 价格，最小货币单位     |  integer     |
-sc        | Service Code    |  string     | 
-sd        | Service Description    |  string     | 
+sc        | Service Code    |  string     |
+sd        | Service Description    |  string     |
 
 **列车信息**
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-trz       | 车次  |  string     | 
+trz       | 车次  |  string     |
 s         | 起始站编码    |  string     |
-sn        | 起点站站名    |  string     | 
-d         | 终点站编码    |  string     | 
-dn        | 终点站站名    |  string     | 
+sn        | 起点站站名    |  string     |
+d         | 终点站编码    |  string     |
+dn        | 终点站站名    |  string     |
 dep       | 出发时间，格式为yyyy-MM-dd HH:mm    |  string     |
 arr       | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     |
 
@@ -369,20 +369,21 @@ end
         "st": "30000|1"
       }
     ],
-    "res": false
+    "res": false,
+    "memo": "Booked By Operator Jimmy"
   }
 
 ```
 
-#### 参数说明  
+#### 参数说明
 
 订票主要提供三类信息，分别是联系人，旅客信息以及订票信息（包括Section信息, offer code, service code）
 
 Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 ct         | 联系人信息，详见联系人信息信息表格    |  contact     |
-psgs       | 旅客信息，详见旅客信息列表    |  array     |     
-sec        | Segments，行程中的不同车型，详见Segment信息表格    |  array     | 
+psgs       | 旅客信息，详见旅客信息列表    |  array     |
+sec        | Segments，行程中的不同车型，详见Segment信息表格    |  array     |
 res       | 是否订座，true or false    |  boolean     |
 
 **联系人信息**
@@ -390,28 +391,32 @@ res       | 是否订座，true or false    |  boolean     |
 Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 name      | 名字    |  string     |
-e         | 邮件    |  string     |     
-post      | 邮政编码    |  string     | 
-ph        | 电话号码    |  string     | 
-add       | 邮寄地址    |  string     | 
+e         | 邮件    |  string     |
+post      | 邮政编码    |  string     |
+ph        | 电话号码    |  string     |
+add       | 邮寄地址    |  string     |
 
 **旅客信息**
 
 Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 lst      | 姓，拼音    |  string     |
-fst         | 名，拼音    |  string     |     
-birth      | 生日，格式为yyyy-MM-dd    |  string     | 
-pt        | 护照号    |  string     | 
-exp       | 护照截止日期，格式为yyyy-MM-dd    |  string     | 
+fst         | 名，拼音    |  string     |
+birth      | 生日，格式为yyyy-MM-dd    |  string     |
+pt        | 护照号    |  string     |
+exp       | 护照截止日期，格式为yyyy-MM-dd    |  string     |
 
 **Sections信息**
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-id        | Section ID  |  string     | 
+id        | Section ID  |  string     |
 o         | Offer Code    |  string     |
-st        | Service Code    |  string     | 
+st        | Service Code    |  string     |
+
+**Memo备注信息**
+
+您也可以通过Memo传人备注信息，比如您的API有比较多的操作员，备注中可以填写操作员的名称。该备注将会出现在月度报表中。
 
 ### Book Response
 
@@ -492,20 +497,20 @@ st        | Service Code    |  string     |
 ```
 #### 参数说明
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-id        | ID    |  string    |  
-rw        | 铁路公司编码    |  string    |     
-cuy       | 币种，EUR, CNY, HKD等    |  string     | 
+id        | ID    |  string    |
+rw        | 铁路公司编码    |  string    |
+cuy       | 币种，EUR, CNY, HKD等    |  string     |
 p         | 票面价格，最小货币单位     |  integer     |
-co        | 佣金金额，最小货币单位   |  integer     |   
+co        | 佣金金额，最小货币单位   |  integer     |
 ta        | 总价格，最小货币单位   |  integer     |
-dt        | 出发日期，格式为yyyy-MM-dd    |  string     | 
-od        | 创建日期UNIX时间戳    |  integer     |  
+dt        | 出发日期，格式为yyyy-MM-dd    |  string     |
+od        | 创建日期UNIX时间戳    |  integer     |
 s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     | 
+d         | 终点站编码    |  string     |
 psgs      | 旅客信息    | array      |
-tks       | 车票信息    |  array     | 
+tks       | 车票信息    |  array     |
 lns       | 费用信息    | array      |
 
 **旅客信息**
@@ -514,29 +519,29 @@ Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 id       | ID          | string      |
 lst      | 姓，拼音    |  string     |
-fst         | 名，拼音    |  string     |     
-birth      | 生日，格式为yyyy-MM-dd    |  string     | 
+fst         | 名，拼音    |  string     |
+birth      | 生日，格式为yyyy-MM-dd    |  string     |
 ph        | 电话     | string |
 e         | 邮箱       | string |
-pt        | 护照号    |  string     | 
-exp       | 护照截止日期，格式为yyyy-MM-dd    |  string     | 
+pt        | 护照号    |  string     |
+exp       | 护照截止日期，格式为yyyy-MM-dd    |  string     |
 
 **车票信息**
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-id        | ID          |  string    |  
+id        | ID          |  string    |
 p         | 票面价格，最小货币单位     |  integer     |
 s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     | 
-st        | 出发时间，格式为yyyy-MM-dd HH:mm    |  string     | 
-dt        | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     | 
+d         | 终点站编码    |  string     |
+st        | 出发时间，格式为yyyy-MM-dd HH:mm    |  string     |
+dt        | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     |
 
 **费用明细**
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-id        | ID          |  string    |  
+id        | ID          |  string    |
 am        | 费用，最小货币单位     |  integer     |
 at        | 账户类型 master, slave, credit_card| string|
 lt        | 结算类型 debit, credit |   string |
@@ -666,7 +671,7 @@ Book之后，需要在三十分钟内Confirm Booking，才会正式出票
 
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
-`GET /v1/async_results/{async_key}` 
+`GET /v1/async_results/{async_key}`
 
 获取真实结果。
 
@@ -691,15 +696,15 @@ Confirm最主要的是需要online_order_id。如果需要订购德铁车票，�
 Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 online_order_id         | Book Response中id字段    |  string     |
-card        | 信用卡信息，详见信用卡信息信息表格    |  详见信用卡信息     | 
+card        | 信用卡信息，详见信用卡信息信息表格    |  详见信用卡信息     |
 
 **信用卡信息**
 
-Parameter | Description | 类型         |  
+Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
-cn        | 信用卡号          |  string    |  
+cn        | 信用卡号          |  string    |
 name         | 信用卡持有人姓名     |  string     |
-vn       |    安全码         |  string     |   
+vn       |    安全码         |  string     |
 exp         | 信用卡截止日期，格式为yyyyMM    |  string     |
 
 ### Confirm Response
@@ -739,20 +744,20 @@ Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
 id        | ID          |  string    |
 oid       | 订单ID      |  string    |
-cuy       | 币种，EUR, CNY, HKD等    |  string     | 
+cuy       | 币种，EUR, CNY, HKD等    |  string     |
 p         | 票面价格，最小货币单位     |  integer     |
-co        | 佣金金额，最小货币单位   |  integer     |   
+co        | 佣金金额，最小货币单位   |  integer     |
 ta        | 总价格，最小货币单位   |  integer     |
-dt        | 出发日期，格式为yyyy-MM-dd    |  string     | 
-od        | 创建日期UNIX时间戳    |  integer     |  
-lns       | 费用明细    |  array     | 
+dt        | 出发日期，格式为yyyy-MM-dd    |  string     |
+od        | 创建日期UNIX时间戳    |  integer     |
+lns       | 费用明细    |  array     |
 
 
 ### 线下出票
 
 预定德国国家铁路局线下出票，可以通过Offline Confirmation来提交离线订单。
 
-**接口URL** 
+**接口URL**
 
 `api/v1/offline_confirmation`
 
@@ -771,7 +776,7 @@ HTTP POST
 ```
 
 
-### 信用卡线上支付  
+### 信用卡线上支付
 
 德国国家铁路局Online Confirm需要使用信用卡支付票款。通过信用卡支付可以立即出票。
 
@@ -883,7 +888,7 @@ Confirm成功之后，就可以下载电子车票。不同的公司生成车票�
 下载车票最主要的是需要online_order_id。
 
 
-#### 参数说明  
+#### 参数说明
 
 Parameter | Description | 类型         |
 --------- | ----------- | ----------- |
@@ -896,20 +901,20 @@ online_order_id         | Book Response中id字段    |  string     |
   "tkt_urls":
   [
     "http://ticketsdev.ul-e.com/tickets/test1.pdf",
-    "http://ticketsdev.ul-e.com/tickets/test2.pdf"    
+    "http://ticketsdev.ul-e.com/tickets/test2.pdf"
   ]
 }
-  
+
 ```
 
-## Security Parameters  
+## Security Parameters
 
 所有请求都需要加上如下三个参数到http header中
-  
+
   ```json
   {
-    "From": "ad53f5806e634e698c0f0f04e628444d", 
-    "Date":"Mon, 13 Mar 2017 09:29:43 GMT", 
+    "From": "ad53f5806e634e698c0f0f04e628444d",
+    "Date":"Mon, 13 Mar 2017 09:29:43 GMT",
     "Authorization": "aafb519dddcb782b9a0e727ffeacf6bc"
   }
   ```
@@ -927,7 +932,7 @@ online_order_id         | Book Response中id字段    |  string     |
 end
   ```
 
-关于t，api_key，p的生成规则为如下三步：  
+关于t，api_key，p的生成规则为如下三步：
 
 #### 第一步
 
@@ -983,7 +988,7 @@ P.S.为了更加直观展示，上述的request都省去了该security params，
           "sn": "Berlin Hbf (tief)",
           "dn": "Halle(Saale)Hbf",
           "offers": [
-            
+
             {
               "o": "80003",
               "od": "Flexpreis",
