@@ -22,11 +22,11 @@ The following is the request and response message for search journey from 12:00 
 
 ### Search Request
 
-`GET /v1/online_solutions`
+`GET /api/v1/online_solutions`
 
 This is an async call, an async-key will be returned. Try to use
 
-`GET /v1/async_results/{async_key}`
+`GET /api/v1/async_results/{async_key}`
 
 to retrieve response data.
 

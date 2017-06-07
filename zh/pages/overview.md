@@ -20,11 +20,11 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 
 ### Search Request
 
-`GET /v1/online_solutions`
+`GET /api/v1/online_solutions`
 
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
-`GET /v1/async_results/{async_key}`
+`GET /api/v1/async_results/{async_key}`
 
 获取真实结果。
 
