@@ -853,8 +853,8 @@ def send_http_get uri, api_key, secret, params
 end
 
 begin
-  uri = URI("https://#{env}.api.detie.cn/api/v1/online_confirmationss")
-  async_resp = send_http_post uri, api_key, secret, book_information
+  uri = URI("https://#{env}.api.detie.cn/api/v1/OD_V3G44VG85/online_confirmationss")
+  async_resp = send_http_post uri, api_key, secret, confirmation_information
   p async_resp
   sleep(3)
 
