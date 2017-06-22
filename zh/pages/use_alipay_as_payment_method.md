@@ -62,3 +62,19 @@ Agency账户挂帐的订票方式，API调用过程为：
   ]
 }
 ```
+
+### P.S. 线上支付注意事项
+1. 配置返回URL
+2. 确认出票时，增加"paid"参数
+
+`POST /v1/online_orders/{online_order_id}/online_confirmations`
+
+Example requrest:
+
+```json
+  {
+    "online_order_id": "OD_V3G44VG85",
+    "paid":true
+  }
+
+```
