@@ -13,6 +13,103 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 
 通票车票为纸质票，在预定确认后将由后台人工打印通票并快递给预留地址。
 
+## Search PassTickets
+传入国家信息，返回通票信息
+
+*HTTP GET*
+
+`/api/v1/pass_solutions?#{params.to_query}`
+
+*Example*
+
+/api/v1/pass_solutions?ctrs%5B%5D=fr&ctrs%5B%5D=de
+
+*Sample Search Result*
+```json
+{
+  "data": {
+    "pss": [
+      {
+        "pcode": "frde08days02month",
+        "pname": "02个月任意08天",
+        "pdescr": "EURAIL THREE-COUNTRY PASS LEVEL HIGH",
+        "pcur": "EUR",
+        "frs": [
+          {
+            "fcode": "frde08days02monthadultfirst",
+            "name": "成人一等座",
+            "st": "first_class",
+            "pt": "adult",
+            "tt": "paper",
+            "pr": 45800
+          },
+          {
+            "fcode": "frde08days02monthchildfirst",
+            "name": "儿童一等座",
+            "st": "first_class",
+            "pt": "child",
+            "tt": "paper",
+            "pr": 0
+          },
+          {
+            "fcode": "frde08days02monthadultstandard",
+            "name": "成人二等座",
+            "st": "second_class",
+            "pt": "adult",
+            "tt": "paper",
+            "pr": 36700
+          },
+          {
+            "fcode": "frde08days02monthchildstandard",
+            "name": "儿童二等座",
+            "st": "second_class",
+            "pt": "child",
+            "tt": "paper",
+            "pr": 0
+          }
+        ],
+        "ctrs": [
+          {
+            "cc": 80,
+            "cn": "德国"
+          },
+          {
+            "cc": 87,
+            "cn": "法国"
+          }
+        ]
+      },
+      {
+        "pcode": "frde06days02monthyouthonlystandard",
+        "pname": "02个月任意06天",
+        "pdescr": "EURAIL TWO-COUNTRY STANDARD CLASS YOUTH PASS LEVEL HIGH",
+        "pcur": "EUR",
+        "frs": [
+          {
+            "fcode": "frde06days02monthyouthonlystandardyouthstandard",
+            "name": "青年二等座",
+            "st": "second_class",
+            "pt": "youth",
+            "tt": "paper",
+            "pr": 25800
+          }
+        ],
+        "ctrs": [
+          {
+            "cc": 87,
+            "cn": "法国"
+          },
+          {
+            "cc": 80,
+            "cn": "德国"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## Book Pass Tickets
 
 传入票价信息、乘客信息、联系人地址信息就可以预订和确认通票
