@@ -165,8 +165,12 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 只需要根据Book返回的oid构建Confirm的URL，Post到就可以完成订单确认。
 
 p.s. 如果支付宝支付的渠道，需要额外在post参数中加上 `paid = true`。参考：
-[Alipayment method]{{ site.baseurl }}{% link use_alipay_as_payment_method.md.md %}
-
+{% assign pages = site.pages | where:"title", "用支付宝支付GrailTrip订单"%}
+{% for page in pages %}
+  <li>
+      <a class="post-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+  </li>
+{% endfor %}
 
 ### Confirm Response
 
