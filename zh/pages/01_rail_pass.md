@@ -1,7 +1,7 @@
 ---
 layout: page
 lang: zh
-title: 通票（Rail Pass）的API接入文档
+title: 欧洲铁路通票（Rail Pass）的API接入文档
 description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大巴）车票
 ---
 
