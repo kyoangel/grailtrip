@@ -43,13 +43,13 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 
 #### 参数说明
 
-Parameter | 类型 |  Description        |
---------- | ----------- | ----------- |
-s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     |
-dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     |
-na        | 成年人人数    |  integer     |
-nc        | 儿童人数      |  integer     |
+Parameter , 类型 ,  Description        ,
+--------- , ----------- , ----------- ,
+s         , 起始站编码    ,  string     ,
+d         , 终点站编码    ,  string     ,
+dt        , 出发日期，格式为yyyy-MM-dd HH:mm    ,  string     ,
+na        , 成年人人数    ,  integer     ,
+nc        , 儿童人数      ,  integer     ,
 
 搜索Response，返回结果包括意铁(TI)和法拉利铁路(NTV)的行程，因为在罗马和米兰之间有两个铁路公司Trenitalia, NTV。
 
@@ -77,19 +77,19 @@ nc        | 儿童人数      |  integer     |
           "dn":"Milano Centrale(意大利-米兰中央总站)",
           "offers":[
             {
-              "o":"1|1|0|ITA",
+              "o":"1,1,0,ITA",
               "od":"全价票",
               "svcs":[
                 {
                   "sa":10,
                   "p":22000,
-                  "sc":"30000|1",
+                  "sc":"30000,1",
                   "sd":"30000"
                 },
                 {
                   "sa":41,
                   "p":12200,
-                  "sc":"30002|1",
+                  "sc":"30002,1",
                   "sd":"30002"
                 }
               ]
@@ -118,74 +118,74 @@ nc        | 儿童人数      |  integer     |
 ```
 #### 参数说明
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-rw         | 铁路公司编码    |  string    |
-dt        | 出发日期，格式为yyyy-MM-dd HH:mm    |  string     |
-dur        | 时长，格式为HH:mm    |  string     |
-s         | 起始站编码    |  string     |
-sn        | 起点站站名    |  string     |
-d         | 终点站编码    |  string     |
-dn        | 终点站站名    |  string     |
-res       | 需要订座      | enum mandatory, optional, N/A      |
-ni        | 换车次数    |  integer     |
-secs      | Sections，行程中的不同车型，详见Sections信息表格    |  array     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+rw         , 铁路公司编码    ,  string    ,
+dt        , 出发日期，格式为yyyy-MM-dd HH:mm    ,  string     ,
+dur        , 时长，格式为HH:mm    ,  string     ,
+s         , 起始站编码    ,  string     ,
+sn        , 起点站站名    ,  string     ,
+d         , 终点站编码    ,  string     ,
+dn        , 终点站站名    ,  string     ,
+res       , 需要订座      , enum mandatory, optional, N/A      ,
+ni        , 换车次数    ,  integer     ,
+secs      , Sections，行程中的不同车型，详见Sections信息表格    ,  array     ,
 
 
 **rw铁路公司编码**
 
-铁路公司 | 英文名 | 值         |
---------- | ----------- | ----------- |
-意铁         | Trenitalia    |  TI    |
-德铁         | DbBahn    |  DB     |
-法拉利铁路        | Italo    |  NTV     |
+铁路公司 , 英文名 , 值         ,
+--------- , ----------- , ----------- ,
+意铁         , Trenitalia    ,  TI    ,
+德铁         , DbBahn    ,  DB     ,
+法拉利铁路        , Italo    ,  NTV     ,
 
 **Section信息**
 
 因为不同铁路路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-id        | Section ID  |  string     |
-s         | 起始站编码    |  string     |
-sn        | 起点站站名    |  string     |
-d         | 终点站编码    |  string     |
-dn        | 终点站站名    |  string     |
-offers    | Offer列表，详见Offer表格    |  array     |
-trzs      | 列车列表，详见列车表格    |  array     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+id        , Section ID  ,  string     ,
+s         , 起始站编码    ,  string     ,
+sn        , 起点站站名    ,  string     ,
+d         , 终点站编码    ,  string     ,
+dn        , 终点站站名    ,  string     ,
+offers    , Offer列表，详见Offer表格    ,  array     ,
+trzs      , 列车列表，详见列车表格    ,  array     ,
 
 **Offer信息**
 
 不同铁路公司以及不同的车型会有不同的折扣类型，通称为Offer。
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-o        | Offer Code  |  string     |
-od         | Offer Description    |  string     |
-svcs        | 舱位列表，详见services信息表格    |  array     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+o        , Offer Code  ,  string     ,
+od         , Offer Description    ,  string     ,
+svcs        , 舱位列表，详见services信息表格    ,  array     ,
 
 **Service信息**
 
 不同的铁路公司以及不同的车型会有不同的舱位，通称为Service
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-sa        | 剩余席位  |  integer     |
-p         | 价格，最小货币单位     |  integer     |
-sc        | Service Code    |  string     |
-sd        | Service Description    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+sa        , 剩余席位  ,  integer     ,
+p         , 价格，最小货币单位     ,  integer     ,
+sc        , Service Code    ,  string     ,
+sd        , Service Description    ,  string     ,
 
 **列车信息**
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-trz       | 车次  |  string     |
-s         | 起始站编码    |  string     |
-sn        | 起点站站名    |  string     |
-d         | 终点站编码    |  string     |
-dn        | 终点站站名    |  string     |
-dep       | 出发时间，格式为yyyy-MM-dd HH:mm    |  string     |
-arr       | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+trz       , 车次  ,  string     ,
+s         , 起始站编码    ,  string     ,
+sn        , 起点站站名    ,  string     ,
+d         , 终点站编码    ,  string     ,
+dn        , 终点站站名    ,  string     ,
+dep       , 出发时间，格式为yyyy-MM-dd HH:mm    ,  string     ,
+arr       , 到达时间，格式为yyyy-MM-dd HH:mm    ,  string     ,
 
 
 下面是搜索一位成年旅客(na = 1)，在2017年4月1日(dt)，从罗马特米尼站(罗马火车总站，车站编码'ST_EZVVG1X5')到米兰中央火车站(车站编码，'ST_D8NNN9ZK')的车次、车票和价格信息的示例代码
@@ -254,7 +254,7 @@ class Array
     if empty?
       nil.to_query(prefix)
     else
-      collect { |value| value.to_query(prefix) }.join "&"
+      collect { ,value, value.to_query(prefix) }.join "&"
     end
   end
 end
@@ -262,8 +262,8 @@ end
 class Hash
 
   def to_query(namespace = nil)
-    collect do |key, value|
-      unless (value.is_a?(Hash) || value.is_a?(Array)) && value.empty?
+    collect do ,key, value,
+      unless (value.is_a?(Hash) ,, value.is_a?(Array)) && value.empty?
         value.to_query(namespace ? "#{namespace}[#{key}]" : key)
       end
     end.compact.sort! * "&"
@@ -277,7 +277,7 @@ search_criteria = {"s":"ST_EZVVG1X5","d":"ST_D8NNN9ZK","dt": 11.hours.since(Time
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
   hashdata = {api_key: api_key, t: time}.merge(params)
-  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{,k,v, "#{k}=#{v}"}.join + secret)
   result = {
     "From": api_key,
     "Date": Time.at(time).httpdate,
@@ -294,7 +294,7 @@ env = "alpha"
 
 def send_http_get uri, api_key, secret, params
   Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { |http|
+    :use_ssl => uri.scheme == 'https') { ,http,
     request = Net::HTTP::Get.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -365,8 +365,8 @@ end
     "secs": [
       {
         "id": "SC_1LECVMF",
-        "o": "1|1|0|ITA",
-        "st": "30000|1"
+        "o": "1,1,0,ITA",
+        "st": "30000,1"
       }
     ],
     "res": false,
@@ -379,40 +379,40 @@ end
 
 订票主要提供三类信息，分别是联系人，旅客信息以及订票信息（包括Section信息, offer code, service code）
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-ct         | 联系人信息，详见联系人信息信息表格    |  contact     |
-psgs       | 旅客信息，详见旅客信息列表    |  array     |
-sec        | Segments，行程中的不同车型，详见Segment信息表格    |  array     |
-res       | 是否订座，true or false    |  boolean     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+ct         , 联系人信息，详见联系人信息信息表格    ,  contact     ,
+psgs       , 旅客信息，详见旅客信息列表    ,  array     ,
+sec        , Segments，行程中的不同车型，详见Segment信息表格    ,  array     ,
+res       , 是否订座，true or false    ,  boolean     ,
 
 **联系人信息**
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-name      | 名字    |  string     |
-e         | 邮件    |  string     |
-post      | 邮政编码    |  string     |
-ph        | 电话号码    |  string     |
-add       | 邮寄地址    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+name      , 名字    ,  string     ,
+e         , 邮件    ,  string     ,
+post      , 邮政编码    ,  string     ,
+ph        , 电话号码    ,  string     ,
+add       , 邮寄地址    ,  string     ,
 
 **旅客信息**
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-lst      | 姓，拼音    |  string     |
-fst         | 名，拼音    |  string     |
-birth      | 生日，格式为yyyy-MM-dd    |  string     |
-pt        | 护照号    |  string     |
-exp       | 护照截止日期，格式为yyyy-MM-dd    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+lst      , 姓，拼音    ,  string     ,
+fst         , 名，拼音    ,  string     ,
+birth      , 生日，格式为yyyy-MM-dd    ,  string     ,
+pt        , 护照号    ,  string     ,
+exp       , 护照截止日期，格式为yyyy-MM-dd    ,  string     ,
 
 **Sections信息**
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-id        | Section ID  |  string     |
-o         | Offer Code    |  string     |
-st        | Service Code    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+id        , Section ID  ,  string     ,
+o         , Offer Code    ,  string     ,
+st        , Service Code    ,  string     ,
 
 **Memo备注信息**
 
@@ -497,57 +497,57 @@ st        | Service Code    |  string     |
 ```
 #### 参数说明
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-id        | ID    |  string    |
-rw        | 铁路公司编码    |  string    |
-cuy       | 币种，EUR, CNY, HKD等    |  string     |
-p         | 票面价格，最小货币单位     |  integer     |
-co        | 佣金金额，最小货币单位   |  integer     |
-ta        | 总价格，最小货币单位   |  integer     |
-dt        | 出发日期，格式为yyyy-MM-dd    |  string     |
-od        | 创建日期UNIX时间戳    |  integer     |
-s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     |
-psgs      | 旅客信息    | array      |
-tks       | 车票信息    |  array     |
-lns       | 费用信息    | array      |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+id        , ID    ,  string    ,
+rw        , 铁路公司编码    ,  string    ,
+cuy       , 币种，EUR, CNY, HKD等    ,  string     ,
+p         , 票面价格，最小货币单位     ,  integer     ,
+co        , 佣金金额，最小货币单位   ,  integer     ,
+ta        , 总价格，最小货币单位   ,  integer     ,
+dt        , 出发日期，格式为yyyy-MM-dd    ,  string     ,
+od        , 创建日期UNIX时间戳    ,  integer     ,
+s         , 起始站编码    ,  string     ,
+d         , 终点站编码    ,  string     ,
+psgs      , 旅客信息    , array      ,
+tks       , 车票信息    ,  array     ,
+lns       , 费用信息    , array      ,
 
 **旅客信息**
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-id       | ID          | string      |
-lst      | 姓，拼音    |  string     |
-fst         | 名，拼音    |  string     |
-birth      | 生日，格式为yyyy-MM-dd    |  string     |
-ph        | 电话     | string |
-e         | 邮箱       | string |
-pt        | 护照号    |  string     |
-exp       | 护照截止日期，格式为yyyy-MM-dd    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+id       , ID          , string      ,
+lst      , 姓，拼音    ,  string     ,
+fst         , 名，拼音    ,  string     ,
+birth      , 生日，格式为yyyy-MM-dd    ,  string     ,
+ph        , 电话     , string ,
+e         , 邮箱       , string ,
+pt        , 护照号    ,  string     ,
+exp       , 护照截止日期，格式为yyyy-MM-dd    ,  string     ,
 
 **车票信息**
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-id        | ID          |  string    |
-p         | 票面价格，最小货币单位     |  integer     |
-s         | 起始站编码    |  string     |
-d         | 终点站编码    |  string     |
-st        | 出发时间，格式为yyyy-MM-dd HH:mm    |  string     |
-dt        | 到达时间，格式为yyyy-MM-dd HH:mm    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+id        , ID          ,  string    ,
+p         , 票面价格，最小货币单位     ,  integer     ,
+s         , 起始站编码    ,  string     ,
+d         , 终点站编码    ,  string     ,
+st        , 出发时间，格式为yyyy-MM-dd HH:mm    ,  string     ,
+dt        , 到达时间，格式为yyyy-MM-dd HH:mm    ,  string     ,
 
 **费用明细**
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-id        | ID          |  string    |
-am        | 费用，最小货币单位     |  integer     |
-at        | 账户类型 master, slave, credit_card| string|
-lt        | 结算类型 debit, credit |   string |
-cg        | 费用科目     | string      |
-tg        | 对应ID      | string      |
-des       | 备注        |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+id        , ID          ,  string    ,
+am        , 费用，最小货币单位     ,  integer     ,
+at        , 账户类型 master, slave, credit_card, string,
+lt        , 结算类型 debit, credit ,   string ,
+cg        , 费用科目     , string      ,
+tg        , 对应ID      , string      ,
+des       , 备注        ,  string     ,
 
 下面是Book 2017年2月16日中午12点从罗马到米兰的高铁(意大利国家铁路Trenitalia, FR 9626)Executive舱的示例代码
 
@@ -587,8 +587,8 @@ book_information = {
     "secs": [
       {
         "id": "SC_1LECVMF",
-        "o": "1|1|0|ITA",
-        "st": "30000|1"
+        "o": "1,1,0,ITA",
+        "st": "30000,1"
       }
     ],
     "res": false
@@ -596,8 +596,8 @@ book_information = {
 
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
-  hashdata = {api_key: api_key, t: time}.merge(params.reject {|k, v| v.is_a? Hash}.reject {|k, v| v.is_a? Array}.reject {|k, v| v.nil?})
-  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
+  hashdata = {api_key: api_key, t: time}.merge(params.reject {,k, v, v.is_a? Hash}.reject {,k, v, v.is_a? Array}.reject {,k, v, v.nil?})
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{,k,v, "#{k}=#{v}"}.join + secret)
   result = {
     "From": api_key,
     "Date": Time.at(time).httpdate,
@@ -612,7 +612,7 @@ env = "alpha"
 
 def send_http_post uri, api_key, secret, params
   res = Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { |http|
+    :use_ssl => uri.scheme == 'https') { ,http,
     request = Net::HTTP::Post.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -628,7 +628,7 @@ end
 
 def send_http_get uri, api_key, secret, params
   Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { |http|
+    :use_ssl => uri.scheme == 'https') { ,http,
     request = Net::HTTP::Get.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -693,19 +693,19 @@ Confirm最主要的是需要online_order_id。如果需要订购德铁车票，�
 
 #### 参数说明
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-online_order_id         | Book Response中id字段    |  string     |
-card        | 信用卡信息，详见信用卡信息信息表格    |  详见信用卡信息     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+online_order_id         , Book Response中id字段    ,  string     ,
+card        , 信用卡信息，详见信用卡信息信息表格    ,  详见信用卡信息     ,
 
 **信用卡信息**
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-cn        | 信用卡号          |  string    |
-name         | 信用卡持有人姓名     |  string     |
-vn       |    安全码         |  string     |
-exp         | 信用卡截止日期，格式为yyyyMM    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+cn        , 信用卡号          ,  string    ,
+name         , 信用卡持有人姓名     ,  string     ,
+vn       ,    安全码         ,  string     ,
+exp         , 信用卡截止日期，格式为yyyyMM    ,  string     ,
 
 ### Confirm Response
 
@@ -740,17 +740,17 @@ exp         | 信用卡截止日期，格式为yyyyMM    |  string     |
 ```
 #### 参数说明
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-id        | ID          |  string    |
-oid       | 订单ID      |  string    |
-cuy       | 币种，EUR, CNY, HKD等    |  string     |
-p         | 票面价格，最小货币单位     |  integer     |
-co        | 佣金金额，最小货币单位   |  integer     |
-ta        | 总价格，最小货币单位   |  integer     |
-dt        | 出发日期，格式为yyyy-MM-dd    |  string     |
-od        | 创建日期UNIX时间戳    |  integer     |
-lns       | 费用明细    |  array     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+id        , ID          ,  string    ,
+oid       , 订单ID      ,  string    ,
+cuy       , 币种，EUR, CNY, HKD等    ,  string     ,
+p         , 票面价格，最小货币单位     ,  integer     ,
+co        , 佣金金额，最小货币单位   ,  integer     ,
+ta        , 总价格，最小货币单位   ,  integer     ,
+dt        , 出发日期，格式为yyyy-MM-dd    ,  string     ,
+od        , 创建日期UNIX时间戳    ,  integer     ,
+lns       , 费用明细    ,  array     ,
 
 
 ### 线下出票
@@ -803,8 +803,8 @@ confirm_information = {
 
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
-  hashdata = {api_key: api_key, t: time}.merge(params.reject {|k, v| v.is_a? Hash}.reject {|k, v| v.is_a? Array}.reject {|k, v| v.nil?})
-  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
+  hashdata = {api_key: api_key, t: time}.merge(params.reject {,k, v, v.is_a? Hash}.reject {,k, v, v.is_a? Array}.reject {,k, v, v.nil?})
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{,k,v, "#{k}=#{v}"}.join + secret)
   result = {
     "From": api_key,
     "Date": Time.at(time).httpdate,
@@ -819,7 +819,7 @@ env = "alpha"
 
 def send_http_post uri, api_key, secret, params
   res = Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { |http|
+    :use_ssl => uri.scheme == 'https') { ,http,
     request = Net::HTTP::Post.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -835,7 +835,7 @@ end
 
 def send_http_get uri, api_key, secret, params
   Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { |http|
+    :use_ssl => uri.scheme == 'https') { ,http,
     request = Net::HTTP::Get.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -889,9 +889,9 @@ Confirm成功之后，就可以下载电子车票。不同的公司生成车票�
 
 #### 参数说明
 
-Parameter | Description | 类型         |
---------- | ----------- | ----------- |
-online_order_id         | Book Response中id字段    |  string     |
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+online_order_id         , Book Response中id字段    ,  string     ,
 
 ### 下载车票 Response
 
@@ -922,7 +922,7 @@ online_order_id         | Book Response中id字段    |  string     |
   def signature_of api_key, secret, params = {}
   time = Time.new.to_i
   hashdata = {api_key: api_key, t: time}.merge(params)
-  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{,k,v, "#{k}=#{v}"}.join + secret)
   result = {
     "From": api_key,
     "Date": Time.at(time).httpdate,
