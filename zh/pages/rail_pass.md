@@ -289,7 +289,6 @@ end
 
 
 ### List of Popular Pass Fares
-
 **code**|**name**|**seat_type**|**pass_code**|**currency**| | | | 
 :-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:
 at03days01monthadultfirst|01个月任意03天|成人一等座|at03days01month|EUR|Austria| | | 
@@ -303,7 +302,7 @@ at04days01monthchildfirst|01个月任意04天|儿童一等座|at04days01month|EU
 at04days01monthyouthfirst|01个月任意04天|青年一等座|at04days01month|EUR|Austria| | | 
 at04days01monthadultstandard|01个月任意04天|成人二等座|at04days01month|EUR|Austria| | | 
 at04days01monthchildstandard|01个月任意04天|儿童二等座|at04days01month|EUR|Austria| | | 
-at04days01monthyouthstandard|01个月任意04天|青年二等座|at04days01month|EUR|Austria| | |
+at04days01monthyouthstandard|01个月任意04天|青年二等座|at04days01month|EUR|Austria| | | 
 at05days01monthadultfirst|01个月任意05天|成人一等座|at05days01month|EUR|Austria| | | 
 at05days01monthchildfirst|01个月任意05天|儿童一等座|at05days01month|EUR|Austria| | | 
 at05days01monthyouthfirst|01个月任意05天|青年一等座|at05days01month|EUR|Austria| | | 
@@ -451,7 +450,7 @@ it05days01monthsavechildstandard|01个月任意05天|儿童二等座|it05days01m
 it08days01monthsaveadultfirst|01个月任意08天|成人一等座|it08days01monthsave|EUR|Italy| | | 
 it08days01monthsavechildfirst|01个月任意08天|儿童一等座|it08days01monthsave|EUR|Italy| | | 
 it08days01monthsaveadultstandard|01个月任意08天|成人二等座|it08days01monthsave|EUR|Italy| | | 
-it08days01monthsavechildstandard|01个月任意08天|儿童二等座|it08days01monthsave|EUR|Italy| | |
+it08days01monthsavechildstandard|01个月任意08天|儿童二等座|it08days01monthsave|EUR|Italy| | | 
 es03days01monthadultfirst|01个月任意03天|成人一等座|es03days01month|EUR|Spain| | | 
 es03days01monthchildfirst|01个月任意03天|儿童一等座|es03days01month|EUR|Spain| | | 
 es03days01monthyouthfirst|01个月任意03天|青年一等座|es03days01month|EUR|Spain| | | 
@@ -710,18 +709,6 @@ benllude10days02monthadultfirst|02个月任意10天|成人一等座|benllude10da
 benllude10days02monthchildfirst|02个月任意10天|儿童一等座|benllude10days02month|EUR|Belgium|Netherlands|Luxembourg|Germany
 benllude10days02monthadultstandard|02个月任意10天|成人二等座|benllude10days02month|EUR|Belgium|Netherlands|Luxembourg|Germany
 benllude10days02monthchildstandard|02个月任意10天|儿童二等座|benllude10days02month|EUR|Belgium|Netherlands|Luxembourg|Germany
-
-
-
-
-
- 
-
-
-
-
-
-
 itch04days02monthadultfirst|02个月任意04天|成人一等座|itch04days02month|EUR|Italy|Switzerland| | 
 itch04days02monthchildfirst|02个月任意04天|儿童一等座|itch04days02month|EUR|Italy|Switzerland| | 
 itch04days02monthadultstandard|02个月任意04天|成人二等座|itch04days02month|EUR|Italy|Switzerland| | 
