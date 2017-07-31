@@ -291,5 +291,5 @@ end
 
 ### 常用的通票
 这里列出常用的通票以及其对应的通票编码
-
+[railway pass code](/data/railpass.csv)
 
