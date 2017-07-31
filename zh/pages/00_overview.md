@@ -588,7 +588,7 @@ book_information = {
       {
         "id": "SC_1LECVMF",
         "o": "1,1,0,ITA",
-        "st": "30000,1"
+        "st": "30000|1"
       }
     ],
     "res": false
