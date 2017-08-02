@@ -8,7 +8,7 @@ description: 欧洲游客最经常乘坐的铁路线路
 ##  欧洲铁路经典路线
 去欧洲旅游，最经常乘坐的铁路路线包括
 
-### 德国铁路局
+### 德国
 *   柏林(Berlin Hbf, ST_E0203JK4) - 慕尼黑(München Hbf, ST_EMYR64OX)
 *   法兰克福(Frankfurt(Main)Hbf, ST_LYKXO1K1) - 慕尼黑(München Hbf, ST_EMYR64OX)
 *   法兰克福机场 (Frankfurt(M) Flughafen, ST_D8N9YK5N) - 慕尼黑(München Hbf, ST_EMYR64OX)
@@ -17,21 +17,23 @@ description: 欧洲游客最经常乘坐的铁路线路
 *   法兰克福(Frankfurt(Main)Hbf, ST_LYKXO1K1) - 杜赛尔多夫(Düsseldorf Hbf, ST_EJ06PO45)
 *   法兰克福(Frankfurt(Main)Hbf, ST_LYKXO1K1) - 柏林(Berlin Hbf, ST_E0203JK4)
 *   柏林(Berlin Hbf, ST_E0203JK4) - 汉堡(Hamburg Hbf, ST_EMYR64R3)
+
+### 意大利，Italo
+*   罗马(Roma Termini(特米尼), ST_D8NNN9ZK) - 威尼斯(Venezia S. Lucia(威尼斯圣露西亚),ST_ENZZ7QVN)
+*   罗马(Roma Termini(特米尼), ST_D8NNN9ZK) - 米兰(Milano Centrale(中央火车站), ST_EZVVG1X5)
+
+###	跨国线路
 *   法兰克福 (Frankfurt(Main)Hbf, ST_LYKXO1K1) - 巴黎(Paris Est(巴黎东站), ST_DQM28J3P)
 *   汉堡(Hamburg Hbf, ST_EMYR64R3) - 阿姆斯特丹(Amsterdam Centraal, ST_DQM28J3P)
 *   法兰克福 (Frankfurt(Main)Hbf, ST_LYKXO1K1) - 阿姆斯特丹(Amsterdam Centraal, ST_DQM28J3P)
 *   法兰克福 (Frankfurt(Main)Hbf, ST_LYKXO1K1) - 布鲁塞尔(Bruxelles-Midi, ST_EG62437J)
-*   慕尼黑(München Hbf, ST_EMYR64OX) - 维也纳(WIEN, ST_EG65XK4O)
-
-### 意大利铁路局，Italo
-*   罗马(Roma Termini(特米尼), ST_D8NNN9ZK) - 威尼斯(Venezia S. Lucia(威尼斯圣露西亚),ST_ENZZ7QVN)
-*   罗马(Roma Termini(特米尼), ST_D8NNN9ZK) - 米兰(Milano Centrale(中央火车站), ST_EZVVG1X5)
+*   慕尼黑(München Hbf, ST_EMYR64OX) - 维也纳(Wien Hbf, ST_EZVGJ2KG)
+*   慕尼黑(München Hbf, ST_EMYR64OX) - 布拉格(Praha hl.n.(Prag HBF), ST_L2JGR0QL)
 *   米兰(Milano Centrale(中央火车站), ST_EZVVG1X5) - 苏黎世(Zürich HB(苏黎世), ST_EZVVZO2X)
 *   巴黎(PARIS GARE DE LYON(巴黎里昂站), ST_EZVOJP9W) - 米兰(Milano Centrale(中央火车站), ST_EZVVG1X5)
 *   慕尼黑(München Hbf, ST_EMYR64OX) - 威尼斯(Venezia S. Lucia(威尼斯圣露西亚),ST_ENZZ7QVN)
 
-
-### 其他
+### 待开通线路
 *   阿姆斯特丹(Amsterdam Centraal, ST_DQM28J3P) - 巴黎
 *   阿姆斯特丹(Amsterdam Centraal, ST_DQM28J3P) - 布鲁塞尔
 *   巴黎(Paris Nord Eurostar) - 伦敦(London St. Pancras International)
