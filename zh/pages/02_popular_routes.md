@@ -18,7 +18,7 @@ description: 欧洲游客最经常乘坐的铁路线路
 *   法兰克福(Frankfurt(Main)Hbf, ST_LYKXO1K1) - 柏林(Berlin Hbf, ST_E0203JK4)
 *   柏林(Berlin Hbf, ST_E0203JK4) - 汉堡(Hamburg Hbf, ST_EMYR64R3)
 
-### 意大利，Italo
+### 意大利
 *   罗马(Roma Termini(特米尼), ST_D8NNN9ZK) - 威尼斯(Venezia S. Lucia(威尼斯圣露西亚),ST_ENZZ7QVN)
 *   罗马(Roma Termini(特米尼), ST_D8NNN9ZK) - 米兰(Milano Centrale(中央火车站), ST_EZVVG1X5)
 
