@@ -1,8 +1,8 @@
 ---
 layout: page
 lang: zh
-title: Grail API文档
-description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大巴）车票
+title: Grail API文档 V2
+description: 简化版API，帮助您搜索、比较、预定欧洲地面交通（铁路、大巴）车票
 ---
 
 ## 概述
@@ -12,7 +12,7 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 
 ## Search行程
 
-展示了搜索一位成人2017年2月16日中午12点开始从罗马到米兰车票行程的Request和Response的json报文
+展示了搜索一位成人2017年3月08日上午11点开始从柏林到慕尼黑车票行程的Request和Response的json报文
 
 > 每个request，都需要提供security params
 
@@ -20,24 +20,25 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 
 ### Search Request
 
-`GET /api/v1/online_solutions`
+`GET /api/v2/online_solutions`
 
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
-`GET /api/v1/async_results/{async_key}`
+`GET /api/v2/async_results/{async_key}`
 
 获取真实结果。
 
 
-下面是搜索一位成年旅客(na = 1)，在2017年2月16日中午12时(dt，当地时间)，从罗马特米尼站(罗马火车总站，车站编码'ST_EZVVG1X5')到米兰中央火车站(车站编码，'ST_D8NNN9ZK')的车次、车票和价格信息的Request json
+下面是搜索一位成年旅客(na = 1)，在2017年3月08日中午12时(dt，当地时间)，从柏林中央车站(Berlin Hbf，车站编码'ST_E020P6M4')到慕尼黑中央车站(München Hbf，车站编码，'ST_EMYR64OX')的车次、车票和价格信息的Request json
 
 ```json
   {
-    "s": "ST_EZVVG1X5",
-    "d": "ST_D8NNN9ZK",
-    "dt": "2017-02-16 12:00",
-    "na": 1,
-    "nc": 0
+    "from": "ST_E020P6M4",
+    "to": "ST_EMYR64OX",
+    "date": "2017-03-08",
+    "time": "11:00",
+    "adult": 1,
+    "child": 0
   }
 ```
 
@@ -45,114 +46,133 @@ description: 帮助您搜索、比较、预定欧洲地面交通（铁路、大�
 
 Parameter , 类型 ,  Description        ,
 --------- , ----------- , ----------- ,
-s         , 起始站编码    ,  string     ,
-d         , 终点站编码    ,  string     ,
-dt        , 出发日期，格式为yyyy-MM-dd HH:mm    ,  string     ,
-na        , 成年人人数    ,  integer     ,
-nc        , 儿童人数      ,  integer     ,
+from         , 起始站编码    ,  string     ,
+to         , 终点站编码    ,  string     ,
+date        , 出发日期，格式为yyyy-MM-dd HH:mm    ,  string     ,
+time      ,出发时间, 格式为HH:mm    ,  string     ,
+adult        , 成年人人数    ,  integer     ,
+child        , 儿童人数      ,  integer     ,
 
-搜索Response，返回结果包括意铁(TI)和法拉利铁路(NTV)的行程，因为在罗马和米兰之间有两个铁路公司Trenitalia, NTV。
+搜索Response，返回结果包括德铁(DB)和Flix大巴公司(FB)的行程，因为在柏林和慕尼黑之间有这两家运营商的班次。
 
 
 ### Search Response
-罗马到米兰搜索Response的json
+柏林到慕尼黑搜索Response的json。因为在柏林和慕尼黑之间有这两家运营商的班次，所以如果分别都有车次的话，会返回含义DB行程方案数组和FB行程方案数组两个元素的数组。
 ```json
   [
-    {
-      "rw":"TI",
-      "dt":"2017-02-17",
-      "dur":"02:55",
-      "s":"ST_D8NNN9ZK",
-      "d":"ST_EZVVG1X5",
-      "sn":"Roma Termini(意大利-罗马火车总站(特米尼))",
-      "dn":"Milano Centrale(意大利-米兰中央总站)",
-      "res":"N/A",
-      "ni":0,
-      "secs":[
-        {
-          "id":"SC_1CO4FO2",
-          "s":"ST_D8NNN9ZK",
-          "d":"ST_EZVVG1X5",
-          "sn":"Roma Termini(意大利-罗马火车总站(特米尼))",
-          "dn":"Milano Centrale(意大利-米兰中央总站)",
-          "offers":[
-            {
-              "o":"1,1,0,ITA",
-              "od":"全价票",
-              "svcs":[
-                {
-                  "sa":10,
-                  "p":22000,
-                  "sc":"30000,1",
-                  "sd":"30000"
-                },
-                {
-                  "sa":41,
-                  "p":12200,
-                  "sc":"30002,1",
-                  "sd":"30002"
-                }
-              ]
-            }
-          ],
-          "trzs":[
-            {
-              "trz":"FR 9626",
-              "s":"ST_D8NNN9ZK",
-              "d":"ST_EZVVG1X5",
-              "sn":"Roma Termini(意大利-罗马火车总站(特米尼))",
-              "dn":"Milano Centrale(意大利-米兰中央总站)",
-              "dep":"2017-02-17 12:00",
-              "arr":"2017-02-17 14:55"
-            }
-          ]
-        }
-      ]
-  },
-  {
-      "rw":"NTV",
-      "dt":"2017-02-17",
-      "other information": "more information"
-  }
-]
+      {
+        "railway": {
+          "code": "DB"
+        },
+        "solutions": [
+          {
+            "from": {
+              "code": "ST_E020P6M4",
+              "name": "Berlin"
+            },
+            "to": {
+              "code": "ST_EMYR64OX",
+              "name": "Munchen"
+            },
+            "departure": "2017-03-08T13:30:00+01:00",
+            "duration": {
+              "hour": 6,
+              "minutes": 47
+            },
+            "transfer_times": 0,
+            "sections": [
+              {
+                "offers": [
+                  {
+                    "code": "T01",
+                    "description": "base",
+                    "detail": "",
+                    "services": [
+                      {
+                        "code": "C01",
+                        "description": "1st",
+                        "detail": "",
+                        "available": {
+                          "seats": 999
+                        },
+                        "price": { "currency": "USD", "cents": 3900 },
+                        "booking_code": "bc_01"
+                      }
+                    ]
+                  }
+                ],
+                "trains": [
+                  {
+                    "number": "ICE 1609",
+                    "type": "ICE",
+                    "from": {
+                      "code": "ST_E020P6M4",
+                      "name": "Berlin"
+                    },
+                    "to": {
+                      "code": "ST_EMYR64OX",
+                      "name": "Munchen"
+                    },
+                    "departure": "2017-03-08T13:30:00+01:00",
+                    "arrival": "2017-03-08T18:17:00+01:00"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
 ```
 #### 参数说明
 
 Parameter , Description , 类型         ,
 --------- , ----------- , ----------- ,
-rw         , 铁路公司编码    ,  string    ,
-dt        , 出发日期，格式为yyyy-MM-dd HH:mm    ,  string     ,
-dur        , 时长，格式为HH:mm    ,  string     ,
-s         , 起始站编码    ,  string     ,
-sn        , 起点站站名    ,  string     ,
-d         , 终点站编码    ,  string     ,
-dn        , 终点站站名    ,  string     ,
-res       , 需要订座      , enum mandatory, optional, N/A      ,
-ni        , 换车次数    ,  integer     ,
-secs      , Sections，行程中的不同车型，详见Sections信息表格    ,  array     ,
+railway         , 铁路公司，详见**Railway铁路公司编码**表格    ,  string    ,
+solutions        , 旅程方案列表，详见**Solution**表格     ,  array     ,
 
-
-**rw铁路公司编码**
+**Railway铁路公司编码**
 
 铁路公司 , 英文名 , 值         ,
 --------- , ----------- , ----------- ,
 意铁         , Trenitalia    ,  TI    ,
 德铁         , DbBahn    ,  DB     ,
 法拉利铁路        , Italo    ,  NTV     ,
+Flixbus大巴公司        , Flixbus    ,  FB     ,
 
-**Section信息**
-
-因为不同铁路路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
+**Solution信息**
 
 Parameter , Description , 类型         ,
 --------- , ----------- , ----------- ,
-id        , Section ID  ,  string     ,
-s         , 起始站编码    ,  string     ,
-sn        , 起点站站名    ,  string     ,
-d         , 终点站编码    ,  string     ,
-dn        , 终点站站名    ,  string     ,
-offers    , Offer列表，详见Offer表格    ,  array     ,
-trzs      , 列车列表，详见列车表格    ,  array     ,
+from        , 起始站信息，详见**Station车站信息**表格  ,  station     ,
+to         , 终点站编码，详见**Station车站信息**表格    ,  station     ,
+departure        , 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"   ,  string     ,
+duration         , 时长，详见**Duration时长信息**表格    ,  duration     ,
+transfer_times        , 转车次数    ,  integer     ,
+sections      , Sections，行程中的不同车型，详见Sections信息表格    ,  array     ,
+
+**Station车站信息**
+
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+code        , 车站编码  ,  string     ,
+name         , 车站名称    ,  string     ,
+
+**Duration车站信息**
+
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+hour        , 小时数  ,  integer     ,
+minutes         , 分钟数    ,  integer     ,
+
+**Section信息**
+
+因为不同铁路路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，比如意铁的红剑列车(Frecciargento高速火车)有Executive, Business, Business Area Silenzio, Premium, Standard五种不同舱位，Base,Economy,Super Economy三种不同的折扣方式，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
+
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+offers        , 不同Offer的数组，详见**Offer信息**表格  ,  array     ,
+trains      , 列车列表，详见**列车信息**表格    ,  array     ,
 
 **Offer信息**
 
@@ -160,35 +180,51 @@ trzs      , 列车列表，详见列车表格    ,  array     ,
 
 Parameter , Description , 类型         ,
 --------- , ----------- , ----------- ,
-o        , Offer Code  ,  string     ,
-od         , Offer Description    ,  string     ,
-svcs        , 舱位列表，详见services信息表格    ,  array     ,
+code        , Offer编码  ,  string     ,
+description         , Offer描述    ,  string     ,
+detail        , Offer详细信息    ,  string     ,
+services        , 舱位列表，详见**Service舱位信息**表格    ,  array     ,
+trains        , 列车列表，详见**Train列车信息**表格    ,  array     ,
 
-**Service信息**
+**Service舱位信息**
 
-不同的铁路公司以及不同的车型会有不同的舱位，通称为Service
-
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-sa        , 剩余席位  ,  integer     ,
-p         , 价格，最小货币单位     ,  integer     ,
-sc        , Service Code    ,  string     ,
-sd        , Service Description    ,  string     ,
-
-**列车信息**
+不同的铁路公司以及不同的车型会有不同的舱位，通称为Service。比如意铁的红剑列车(Frecciargento高速火车)有Executive, Business, Business Area Silenzio, Premium, Standard五种不同舱位。德铁的ICE高铁有一等舱，二等舱等。
 
 Parameter , Description , 类型         ,
 --------- , ----------- , ----------- ,
-trz       , 车次  ,  string     ,
-s         , 起始站编码    ,  string     ,
-sn        , 起点站站名    ,  string     ,
-d         , 终点站编码    ,  string     ,
-dn        , 终点站站名    ,  string     ,
-dep       , 出发时间，格式为yyyy-MM-dd HH:mm    ,  string     ,
-arr       , 到达时间，格式为yyyy-MM-dd HH:mm    ,  string     ,
+code        , 舱位编码  ,  string     ,
+description         , 舱位描述     ,  string     ,
+detail         , 舱位详细信息     ,  string     ,
+available        , 剩余席位，详见**Available剩余席位信息**表格    ,  available     ,
+price        , 价格，详见**Price价格信息**表格    ,  price     ,
+booking_code        , 预订编码    ,  string     ,
+
+**Available剩余席位信息**
+
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+seats       , 剩余席位数  ,  integer     ,
+
+**Price价格信息**
+
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+currency       , 货币标示，比如EUR, CNY  ,  string     ,
+cents       , 精确到分的金额，比如39元, 数值应该是3900  ,  integer     ,
+
+**Train列车信息**
+
+Parameter , Description , 类型         ,
+--------- , ----------- , ----------- ,
+number       , 车次，比如"ICE 1609"  ,  string     ,
+type         , 列车类型，比如德铁的"ICE"    ,  string     ,
+from        , 起始站信息，详见**Station车站信息**表格  ,  station     ,
+to         , 终点站编码，详见**Station车站信息**表格    ,  station     ,
+departure        , 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"   ,  string     ,
+arrival         , 到达时间，UTC格式的本地时间，例如："2017-03-08T18:17:00+01:00"   ,  string     ,
 
 
-下面是搜索一位成年旅客(na = 1)，在2017年4月1日(dt)，从罗马特米尼站(罗马火车总站，车站编码'ST_EZVVG1X5')到米兰中央火车站(车站编码，'ST_D8NNN9ZK')的车次、车票和价格信息的示例代码
+下面是搜索一位成年旅客(na = 1)，在2017年3月8日上午11点开始(dt)，从柏林火车总站(Berlin Hbf，车站编码'ST_E020P6M4')到慕尼黑火车总站(München Hbf, 车站编码，'ST_EMYR64OX')的车次、车票和价格信息的示例代码
 
 > Ruby版
 
@@ -311,7 +347,7 @@ begin
   p async_resp
   sleep(3)
 
-  get_result_uri = URI("https://#{env}.api.detie.cn/api/v1/async_results/#{async_resp['async']}")
+  get_result_uri = URI("https://#{env}.api.detie.cn/api/v2/async_results/#{async_resp['async']}")
   50.times do
     sleep(3)
     solutions = send_http_get get_result_uri, api_key, secret, {async_key: async_resp['async']}
