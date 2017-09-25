@@ -8,7 +8,7 @@ description: 简化版API，帮助您搜索、比较、预定欧洲地面交通�
 ## 概述
 本文档介绍了Grail API定义以及使用场景和例子，利用Grail API可以Search, Book, Confirm欧洲铁路(德国铁路局DB Deutsche Bahn, 意大利铁路局Trenitalia, 法拉利铁路Italo)和大巴(Flixbus)的车票。
 
-主要API有四个，分别是**Search**, **Book**, **Confirm**和**Download** Ticket。
+主要API有四个，分别是**Search**, **Book**, **Confirm**和**Download**车票。
 
 ## Search行程
 
@@ -20,11 +20,15 @@ description: 简化版API，帮助您搜索、比较、预定欧洲地面交通�
 
 ### Search Request
 
-`GET /api/v2/online_solutions`
+```
+GET /api/v2/online_solutions
+```
 
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
-`GET /api/v2/async_results/{async_key}`
+```
+GET /api/v2/async_results/{async_key}
+```
 
 获取真实结果。
 
