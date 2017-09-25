@@ -226,7 +226,7 @@ GET /api/v2/async_results/{async_key}
 |detail    | 舱位详细信息     |  string     |
 |available | 剩余席位，详见**Available剩余席位信息**表格  |  available     |
 |price     | 价格，详见**Price价格信息**表格   |  price     |
-|booking_code | 预订编码    |  string     |
+|booking_code | 预订编码，用于Book Request    |  string     |
 
 
 **Available剩余席位信息**
@@ -399,11 +399,15 @@ end
 
 ### Book Request
 
-`POST /v1/online_orders`
+```
+POST /v2/online_orders
+```
 
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
-`GET /v1/async_results/{async_key}`
+```
+GET /v2/async_results/{async_key}
+```
 
 获取真实结果。
 
@@ -411,76 +415,73 @@ end
 
 ```json
   {
-    "ct":
-    {
-      "name": "Zhang San",
-      "e": "test@email.com",
-      "post": "post code",
-      "ph": "123456",
-      "add": "address"
+    "contact": {
+      "name": "Liping",
+      "email": "lp@163.com",
+      "phone": "10086",
+      "address": "beijing",
+      "postcode": "100100"
     },
-    "psgs": [
+    "passengers": [
       {
-        "lst": "First",
-        "fst": "Last",
-        "birth": "1996-09-02",
-        "e": "test@email.com",
-        "ph": "123456",
-        "passport": "12121221",
-        "exp": "2022-11-03"
+        "last_name": "zhang",
+        "first_name": "san",
+        "birthdate": "1986-09-01",
+        "passport": "A123456",
+        "email": "x@a.cn",
+        "phone": "15000367081",
+        "gender": "male"
       }
     ],
-    "secs": [
-      {
-        "id": "SC_1LECVMF",
-        "o": "1,1,0,ITA",
-        "st": "30000,1"
-      }
+    "sections": [
+      "bc_01"
     ],
-    "res": false,
-    "memo": "Booked By Operator Jimmy"
+    "seat_reserved": true
   }
 
 ```
 
 #### 参数说明
 
-订票主要提供三类信息，分别是联系人，旅客信息以及订票信息（包括Section信息, offer code, service code）
+订票主要提供三类信息，分别是联系人，旅客信息以及订票信息
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-ct         , 联系人信息，详见联系人信息信息表格    ,  contact     ,
-psgs       , 旅客信息，详见旅客信息列表    ,  array     ,
-sec        , Segments，行程中的不同车型，详见Segment信息表格    ,  array     ,
-res       , 是否订座，true or false    ,  boolean     ,
+| Parameter | Description | 类型         |
+|---------- | ----------- | ------------ |
+|contact    |  订票联系人，详见**Contact联系人信息**表格    |  contact     |
+|passengers | 旅客信息，详见旅客信息列表    |  array     |
+|sections   | Segments，行程中的不同车型，详见**Sections信息**表格    |  array     |
+|seat_reserved  | 是否订座，true or false  |  boolean     |
 
-**联系人信息**
+**Contact联系人信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-name      , 名字    ,  string     ,
-e         , 邮件    ,  string     ,
-post      , 邮政编码    ,  string     ,
-ph        , 电话号码    ,  string     ,
-add       , 邮寄地址    ,  string     ,
+|Parameter | Description | 类型        |
+|--------- | ----------- | ----------- |
+|name      | 名字    |  string     |
+|email     | 邮件    |  string     |
+|phone     | 电话号码 |  string     |
+|address   | 电话号码 |  string     |
+|postcode  | 邮寄地址 |  string     |
 
 **旅客信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-lst      , 姓，拼音    ,  string     ,
-fst         , 名，拼音    ,  string     ,
-birth      , 生日，格式为yyyy-MM-dd    ,  string     ,
-pt        , 护照号    ,  string     ,
-exp       , 护照截止日期，格式为yyyy-MM-dd    ,  string     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|last_name | 姓，拼音     |string     |
+|first_name| 名，拼音     |  string   |
+|birthdate | 生日，格式为yyyy-MM-dd    |  string     |
+|passport  | 护照号    |  string     |
+|email     |  邮件    |  string     |
+|phone     |  电话号码 |  string     |
+|gender    |  male or female |  enum     |
 
 **Sections信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-id        , Section ID  ,  string     ,
-o         , Offer Code    ,  string     ,
-st        , Service Code    ,  string     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|book_code | Search Response里面的book_code集合  |  array     |
+
+
+
 
 **Memo备注信息**
 
