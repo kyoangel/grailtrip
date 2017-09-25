@@ -33,7 +33,7 @@ GET /api/v2/async_results/{async_key}
 获取真实结果。
 
 
-下面是搜索一位成年旅客(na = 1)，在2017年3月08日中午12时(dt，当地时间)，从_柏林中央车站(Berlin Hbf，车站编码'ST_E020P6M4')_到_慕尼黑中央车站(München Hbf，车站编码，'ST_EMYR64OX')_的车次、车票和价格信息的Request json
+下面是搜索一位成年旅客，在2017年3月08日中午12时(dt，当地时间)，从柏林中央车站(Berlin Hbf，车站编码'ST_E020P6M4')到慕尼黑中央车站(München Hbf，车站编码，'ST_EMYR64OX')的车次、车票和价格信息的Request
 
 ```json
   {
@@ -48,14 +48,14 @@ GET /api/v2/async_results/{async_key}
 
 #### 参数说明
 
-Parameter , 类型 ,  Description        ,
---------- , ----------- , ----------- ,
-from         , 起始站编码    ,  string     ,
-to         , 终点站编码    ,  string     ,
-date        , 出发日期，格式为yyyy-MM-dd HH:mm    ,  string     ,
-time      ,出发时间, 格式为HH:mm    ,  string     ,
-adult        , 成年人人数    ,  integer     ,
-child        , 儿童人数      ,  integer     ,
+| Parameter        | 类型           | Description  |
+| ------------- |:-------------:| -----:|
+| from          | 起始站编码     | string |
+| to            | 终点站编码     |   string |
+| date          | 出发日期，格式为yyyy-MM-dd HH:mm   |    string |
+| time          | 出发时间, 格式为HH:mm |  string     |
+| adult         | 成年人人数     |  integer     |
+| child         | 儿童人数      |  integer    |
 
 搜索Response，返回结果包括德铁(DB)和Flix大巴公司(FB)的行程，因为在柏林和慕尼黑之间有这两家运营商的班次。
 
