@@ -156,13 +156,13 @@ GET /api/v2/async_results/{async_key}
 
 **Railway编码**
 
-
 | 铁路公司 | 英文名 | 值         |
 |--------- | ----------- | ----------- |
 |意铁       | Trenitalia  |  TI    |
 |德铁       | DbBahn    |  DB     |
 |法拉利铁路  | Italo    |  NTV     |
 |Flixbus大巴公司  | Flixbus    |  FB     |
+
 
 **Solution信息**
 
@@ -175,12 +175,14 @@ GET /api/v2/async_results/{async_key}
 |transfer_times  | 转车次数   |  integer     |
 |sections      | Sections，行程中的不同车型，详见Sections信息表格    |  array     |
 
+
 **Station车站信息**
 
 |Parameter | Description | 类型         |
 |--------- | ----------- | ----------- |
 |code      | 车站编码     |  string     |
 |name      | 车站名称    |  string     |
+
 
 **Duration时长信息**
 
@@ -189,18 +191,20 @@ GET /api/v2/async_results/{async_key}
 |hour      | 小时数  | integer     |
 |minutes   | 分钟数  |  integer     |
 
+
 **Section信息**
 
-因为不同铁路路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，比如意铁的红剑列车(Frecciargento高速火车)有Executive, Business, Business Area Silenzio, Premium, Standard五种不同舱位，Base,Economy,Super Economy三种不同的折扣方式，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
+因为不同路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，比如意铁的红剑列车(Frecciargento高速火车)有Executive, Business, Business Area Silenzio, Premium, Standard五种不同舱位，Base,Economy,Super Economy三种不同的折扣方式，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
 
 |Parameter | Description | 类型         |
 |--------- | ----------- | ----------- |
 |offers    | 不同Offer的数组，详见**Offer信息**表格 |  array     |
 |trains    | 列车列表，详见**列车信息**表格 |  array     |
 
+
 **Offer信息**
 
-不同铁路公司以及不同的车型会有不同的折扣类型，通称为Offer。
+不同公司以及不同的车型会有不同的折扣类型，通称为Offer。
 
 |Parameter | Description | 类型         |
 |--------- | ----------- | ----------- |
@@ -209,6 +213,7 @@ GET /api/v2/async_results/{async_key}
 |detail    | Offer详细信息    |  string     |
 |services  | 舱位列表，详见**Service舱位信息**表格 |  array     |
 |trains    | 列车列表，详见**Train列车信息**表格   |  array     |
+
 
 **Service舱位信息**
 
@@ -223,11 +228,13 @@ GET /api/v2/async_results/{async_key}
 |price     | 价格，详见**Price价格信息**表格   |  price     |
 |booking_code | 预订编码    |  string     |
 
+
 **Available剩余席位信息**
 
 |Parameter | Description | 类型         |
 |--------- | ----------- | ----------- |
 |seats     | 剩余席位数  |  integer     |
+
 
 **Price价格信息**
 
@@ -235,6 +242,7 @@ GET /api/v2/async_results/{async_key}
 |--------- | ----------- | ----------- |
 |currency  | 货币标识，比如EUR, CNY  |  string     |
 |cents     | 精确到分的金额，比如39元, 数值应该是**3900** |  integer     |
+
 
 **Train列车信息**
 
@@ -248,7 +256,7 @@ GET /api/v2/async_results/{async_key}
 |arrival         | 到达时间，UTC格式的本地时间，例如："2017-03-08T18:17:00+01:00"   |  string     |
 
 
-下面是搜索一位成年旅客(na = 1)，在2017年3月8日上午11点开始(dt)，从柏林火车总站(Berlin Hbf，车站编码'ST_E020P6M4')到慕尼黑火车总站(München Hbf, 车站编码，'ST_EMYR64OX')的车次、车票和价格信息的示例代码
+下面是搜索一位成年旅客，在2017年3月8日上午11点开始，从柏林火车总站(Berlin Hbf，车站编码'ST_E020P6M4')到慕尼黑火车总站(München Hbf, 车站编码，'ST_EMYR64OX')的车次、车票和价格信息的示例代码
 
 > Ruby版
 
@@ -332,7 +340,7 @@ class Hash
   alias_method :to_param, :to_query
 end
 
-search_criteria = {"s":"ST_EZVVG1X5","d":"ST_D8NNN9ZK","dt": 11.hours.since(Time.new(2017,4,1)).strftime("%Y-%m-%d %H:%M"),"na":1,"nc":0}
+search_criteria = {"from":"ST_EZVVG1X5","to":"ST_D8NNN9ZK","date": 11.hours.since(Time.new(2017,4,1)).strftime("%Y-%m-%d %H:%M"),"adult":1,"child":0}
 
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
@@ -366,7 +374,7 @@ def send_http_get uri, api_key, secret, params
 end
 
 begin
-  uri = URI("https://#{env}.api.detie.cn/api/v1/online_solutions?#{search_criteria.to_query}")
+  uri = URI("https://#{env}.api.detie.cn/api/v2/online_solutions?#{search_criteria.to_query}")
   async_resp = send_http_get uri, api_key, secret, search_criteria
   p async_resp
   sleep(3)
