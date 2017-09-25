@@ -57,7 +57,7 @@ GET /api/v2/async_results/{async_key}
 | adult         | 成年人人数     |  integer     |
 | child         | 儿童人数      |  integer    |
 
-搜索Response，返回结果包括德铁(DB)和Flix大巴公司(FB)的行程，因为在柏林和慕尼黑之间有这两家运营商的班次。
+
 
 
 ### Search Response
@@ -125,107 +125,127 @@ GET /api/v2/async_results/{async_key}
             ]
           }
         ]
+      },
+      {
+        "railway": {
+          "code": "FB"
+        },
+        "solutions": [
+          {
+            "from": {
+              "code": "ST_E020P6M4",
+              "name": "Berlin"
+            },
+            "to": {
+              "code": "ST_EMYR64OX",
+              "name": "Munchen"
+            },
+            ......
+          }
+        ]
       }
     ]
 ```
-#### 参数说明
+#### Search Response参数说明
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-railway         , 铁路公司，详见**Railway铁路公司编码**表格    ,  string    ,
-solutions        , 旅程方案列表，详见**Solution**表格     ,  array     ,
+| Parameter        | 类型           | Description  |
+| ------------- |:-------------:| -----:|
+| railway          | 铁路公司，详见**Railway编码**表格     | railway |
+| solutions            | 旅程方案列表，详见**Solution信息**表格     |   array |
 
-**Railway铁路公司编码**
 
-铁路公司 , 英文名 , 值         ,
---------- , ----------- , ----------- ,
-意铁         , Trenitalia    ,  TI    ,
-德铁         , DbBahn    ,  DB     ,
-法拉利铁路        , Italo    ,  NTV     ,
-Flixbus大巴公司        , Flixbus    ,  FB     ,
+**Railway编码**
+
+
+| 铁路公司 | 英文名 | 值         |
+|--------- | ----------- | ----------- |
+|意铁       | Trenitalia  |  TI    |
+|德铁       | DbBahn    |  DB     |
+|法拉利铁路  | Italo    |  NTV     |
+|Flixbus大巴公司  | Flixbus    |  FB     |
 
 **Solution信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-from        , 起始站信息，详见**Station车站信息**表格  ,  station     ,
-to         , 终点站编码，详见**Station车站信息**表格    ,  station     ,
-departure        , 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"   ,  string     ,
-duration         , 时长，详见**Duration时长信息**表格    ,  duration     ,
-transfer_times        , 转车次数    ,  integer     ,
-sections      , Sections，行程中的不同车型，详见Sections信息表格    ,  array     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|from      |, 起始站信息,详见**Station车站信息**表格  |  station   |  
+|to        | 终点站编码，详见**Station车站信息**表格  |  station   |
+|departure | 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"  |  string     |
+|duration  | 时长，详见**Duration时长信息**表格    |  duration     |
+|transfer_times  | 转车次数   |  integer     |
+|sections      | Sections，行程中的不同车型，详见Sections信息表格    |  array     |
 
 **Station车站信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-code        , 车站编码  ,  string     ,
-name         , 车站名称    ,  string     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|code      | 车站编码     |  string     |
+|name      | 车站名称    |  string     |
 
-**Duration车站信息**
+**Duration时长信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-hour        , 小时数  ,  integer     ,
-minutes         , 分钟数    ,  integer     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|hour      | 小时数  | integer     |
+|minutes   | 分钟数  |  integer     |
 
 **Section信息**
 
 因为不同铁路路线可能涉及车型不同，因此对于不同的车型，Offer/Service是不同的，比如意铁的红剑列车(Frecciargento高速火车)有Executive, Business, Business Area Silenzio, Premium, Standard五种不同舱位，Base,Economy,Super Economy三种不同的折扣方式，所以有些铁路公司会把整个行程分成Section，然后Section里面包括相同Offer/Service的列车。
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-offers        , 不同Offer的数组，详见**Offer信息**表格  ,  array     ,
-trains      , 列车列表，详见**列车信息**表格    ,  array     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|offers    | 不同Offer的数组，详见**Offer信息**表格 |  array     |
+|trains    | 列车列表，详见**列车信息**表格 |  array     |
 
 **Offer信息**
 
 不同铁路公司以及不同的车型会有不同的折扣类型，通称为Offer。
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-code        , Offer编码  ,  string     ,
-description         , Offer描述    ,  string     ,
-detail        , Offer详细信息    ,  string     ,
-services        , 舱位列表，详见**Service舱位信息**表格    ,  array     ,
-trains        , 列车列表，详见**Train列车信息**表格    ,  array     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|code      | Offer编码  |  string     |
+|description  | Offer描述    |  string     |
+|detail    | Offer详细信息    |  string     |
+|services  | 舱位列表，详见**Service舱位信息**表格 |  array     |
+|trains    | 列车列表，详见**Train列车信息**表格   |  array     |
 
 **Service舱位信息**
 
 不同的铁路公司以及不同的车型会有不同的舱位，通称为Service。比如意铁的红剑列车(Frecciargento高速火车)有Executive, Business, Business Area Silenzio, Premium, Standard五种不同舱位。德铁的ICE高铁有一等舱，二等舱等。
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-code        , 舱位编码  ,  string     ,
-description         , 舱位描述     ,  string     ,
-detail         , 舱位详细信息     ,  string     ,
-available        , 剩余席位，详见**Available剩余席位信息**表格    ,  available     ,
-price        , 价格，详见**Price价格信息**表格    ,  price     ,
-booking_code        , 预订编码    ,  string     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|code      | 舱位编码  |  string     |
+|description  | 舱位描述     |  string     |
+|detail    | 舱位详细信息     |  string     |
+|available | 剩余席位，详见**Available剩余席位信息**表格  |  available     |
+|price     | 价格，详见**Price价格信息**表格   |  price     |
+|booking_code | 预订编码    |  string     |
 
 **Available剩余席位信息**
 
-Parameter , Description , 类型         ,
+|Parameter , Description , 类型         ,
 --------- , ----------- , ----------- ,
 seats       , 剩余席位数  ,  integer     ,
 
 **Price价格信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-currency       , 货币标示，比如EUR, CNY  ,  string     ,
-cents       , 精确到分的金额，比如39元, 数值应该是3900  ,  integer     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|currency  | 货币标识，比如EUR, CNY  |  string     |
+|cents     | 精确到分的金额，比如39元, 数值应该是**3900** |  integer     |
 
 **Train列车信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-number       , 车次，比如"ICE 1609"  ,  string     ,
-type         , 列车类型，比如德铁的"ICE"    ,  string     ,
-from        , 起始站信息，详见**Station车站信息**表格  ,  station     ,
-to         , 终点站编码，详见**Station车站信息**表格    ,  station     ,
-departure        , 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"   ,  string     ,
-arrival         , 到达时间，UTC格式的本地时间，例如："2017-03-08T18:17:00+01:00"   ,  string     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|number    | 车次，比如"ICE 1609"  |  string     |
+|type      | 列车类型，比如德铁的"ICE" |  string   |
+|from      | 起始站信息，详见**Station车站信息**表格|  station     |
+|to        | 终点站编码，详见**Station车站信息**表格 |  station     |
+|departure | 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00" |  string     |
+|arrival         | 到达时间，UTC格式的本地时间，例如："2017-03-08T18:17:00+01:00"   |  string     |
 
 
 下面是搜索一位成年旅客(na = 1)，在2017年3月8日上午11点开始(dt)，从柏林火车总站(Berlin Hbf，车站编码'ST_E020P6M4')到慕尼黑火车总站(München Hbf, 车站编码，'ST_EMYR64OX')的车次、车票和价格信息的示例代码
@@ -1003,7 +1023,7 @@ P.S.为了更加直观展示，上述的request都省去了该security params，
 
 ### 2. API通过Webhook的方式推送结果
 
-联系工作人员添加回调的URL，该URL接受跨域的HTTP POST请求，
+联系工作人员添加回调的URL，该URL接受跨域的HTTP POST请求，1
 请求的格式类似，收到请求后该URL返回200，系统停止重新发送。
 
 ```json
