@@ -168,7 +168,7 @@ GET /api/v2/async_results/{async_key}
 
 |Parameter | Description | 类型         |
 |--------- | ----------- | ----------- |
-|from      |, 起始站信息,详见**Station车站信息**表格  |  station   |  
+|from      | 起始站信息,详见**Station车站信息**表格  |  station   |  
 |to        | 终点站编码，详见**Station车站信息**表格  |  station   |
 |departure | 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"  |  string     |
 |duration  | 时长，详见**Duration时长信息**表格    |  duration     |
@@ -225,9 +225,9 @@ GET /api/v2/async_results/{async_key}
 
 **Available剩余席位信息**
 
-|Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-seats       , 剩余席位数  ,  integer     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|seats     | 剩余席位数  |  integer     |
 
 **Price价格信息**
 
