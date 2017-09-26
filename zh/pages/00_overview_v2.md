@@ -733,7 +733,7 @@ end
 
 ## Confirm行程
 
-Book之后，需要在三十分钟内Confirm Booking，才会正式出票
+Book之后，需要在二十分钟内Confirm Booking，才会正式出票
 
 > 每个request，都需要提供security params
 
@@ -741,114 +741,161 @@ Book之后，需要在三十分钟内Confirm Booking，才会正式出票
 
 ### Confirm Request
 
-`POST /v1/online_orders/{online_order_id}/online_confirmations`
+```
+POST /v1/online_orders/{online_order_id}/online_confirmations
+```
 
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
-`GET /v1/async_results/{async_key}`
+```
+GET /v1/async_results/{async_key}
+```
 
 获取真实结果。
 
-下面例子展示了Confirm2017年2月16日中午12点从罗马到米兰的高铁(FR 9626)，Executive舱的Request json
+下面例子展示了Confirm"OD_02NY86GJP"的Request json
 
 ```json
   {
-    "online_order_id": "OD_V3G44VG85",
-    "card": {
-      "cn": "349206776921275",
-      "name": "full name",
-      "exp": "202002",
-      "vn": "1234"
+    "credit_card": {
+      "number": "378876901453727",
+      "exp_month": 11,
+      "exp_year": 20,
+      "cvv": "119"
     }
   }
 
 ```
-Confirm最主要的是需要online_order_id。如果需要订购德铁车票，如果希望在线确认，需要提供信用卡信息和是否订座信息，另外只有德铁的车次需要注明是否订座，订座费每人2.5欧元。
+Confirm最主要的是需要online_order_id。如果需要订购德铁车票，如果希望在线确认，需要提供信用卡信息和是否订座信息，另外只有德铁的车次需要注明是否订座，订座费每人4.5欧元。
 
 #### 参数说明
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-online_order_id         , Book Response中id字段    ,  string     ,
-card        , 信用卡信息，详见信用卡信息信息表格    ,  详见信用卡信息     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|online_order_id | Book Response中id字段，需要放在Post Request路径里|  path     |
+|credit_card | 信用卡信息，详见**Credit Card信用卡信息**表格 |  credit card     |
 
-**信用卡信息**
+**Credit Card信用卡信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-cn        , 信用卡号          ,  string    ,
-name         , 信用卡持有人姓名     ,  string     ,
-vn       ,    安全码         ,  string     ,
-exp         , 信用卡截止日期，格式为yyyyMM    ,  string     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|number    | 信用卡号     |  string    |
+|name      | 信用卡持有人姓名|  string  |
+|exp_month | 信用卡截止月份|  string |
+|exp_year  | 信用卡截止年|  string     |
+|cvv       | 安全码|  string     |
 
 ### Confirm Response
 
 ```json
 {
-  "id": "OC_X57D2Q79Z",
-  "oid": "OD_37Y7KNM0P",
-  "cuy": "CNY",
-  "p": 320576,
-  "co": 6412,
-  "ta": 323782,
-  "dt": "2017-04-01",
-  "od": 1490870470,
-  "lns": [
-    {
-      "id": "OL_49MJV58MD",
-      "am": 3206,
-      "des": "OTA返佣2%"
-    },
-    {
-      "id": "OL_6JYQROZGW",
-      "am": 160288,
-      "des": "购票"
-    },
-    {
-      "id": "OL_P0MRR6ZMZ",
-      "am": 1603,
-      "des": "出票费2.2欧每人"
+      "id": "OC_60OYGMYKX",
+      "order": {
+        "id": "OD_02NY86GJP",
+        "PNR": "A4DL5N",
+        "railway": {
+          "code": "DB"
+        },
+        "from": {
+          "code": "ST_E020P6M4",
+          "name": "Berlin"
+        },
+        "to": {
+          "code": "ST_EMYR64OX",
+          "name": "Munchen"
+        },
+        "departure": "2017-03-08T13:30:00+01:00",
+        "created_at": 1509363000,
+        "passengers": [
+          {
+            "id": "PN_69NKJLY13",
+            "first_name": "san",
+            "last_name": "zhang",
+            "birthdate": "1986-09-01",
+            "email": "x@a.cn",
+            "phone": "15000367081",
+            "gender": "male"
+          }
+        ],
+        "tickets": [
+          {
+            "id": "TK_2E6GY7MYZ",
+            "from": {
+              "code": "ST_E020P6M4",
+              "name": "Berlin"
+            },
+            "to": {
+              "code": "ST_EMYR64OX",
+              "name": "Munchen"
+            },
+            "price": { "currency": "USD", "cents": 3900 }
+          }
+        ]
+      },
+      "created_at": 1509363000,
+      "ticket_price": { "currency": "USD", "cents": 3900 },
+      "payment_price": { "currency": "USD", "cents": 0 },
+      "rtp_price": { "currency": "USD", "cents": 5100 },
+      "charging_price": { "currency": "USD", "cents": 800 },
+      "rebate_amount": { "currency": "USD", "cents": 117 },
+      "records": [
+        {
+          "id": "OL_02NY86GJP",
+          "amount": { "currency": "USD", "cents": 3900 },
+          "type": "credit",
+          "category": "ticket",
+          "target": "TK_2E6GY7MYZ"
+        },{
+          "id": "OL_N37Y7PG0P",
+          "amount": { "currency": "USD", "cents": 117 },
+          "type": "debit",
+          "category": "commission",
+          "target": "TK_2E6GY7MYZ"
+        },{
+          "id": "OL_WPKYKJMQ5",
+          "amount": { "currency": "USD", "cents": 800 },
+          "type": "credit",
+          "category": "fee",
+          "target": "PN_69NKJLY13"
+        },{
+          "id": "OL_J0QYPEG9O",
+          "amount": { "currency": "USD", "cents": 1200 },
+          "type": "credit",
+          "category": "seat_reservation",
+          "target": "OR_EYO7GEMJW"
+        }
+      ]
     }
-  ]
-}
 ```
 #### 参数说明
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-id        , ID          ,  string    ,
-oid       , 订单ID      ,  string    ,
-cuy       , 币种，EUR, CNY, HKD等    ,  string     ,
-p         , 票面价格，最小货币单位     ,  integer     ,
-co        , 佣金金额，最小货币单位   ,  integer     ,
-ta        , 总价格，最小货币单位   ,  integer     ,
-dt        , 出发日期，格式为yyyy-MM-dd    ,  string     ,
-od        , 创建日期UNIX时间戳    ,  integer     ,
-lns       , 费用明细    ,  array     ,
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|id        | 确认订单ID   |  string    |
+|order     | 订单信息，详见**Order订单信息**表格   |  order    |
+|created_at| 创建时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"  |  string     |
+|ticket_price | 票面总票价，详见**Price价格信息**表格  |  price     |
+|payment_price| 支付总金额，可能包括订座费、订票费等，但是不包括从挂账扣除的部分，详见**Price价格信息**表格  |  price     |
+|rtp_price    | 需要刷卡金额，只适用于德铁，详见**Price价格信息**表格  |  price     |
+|charging_price| 挂账扣除总金额，详见**Price价格信息**表格  |  price     |
+|rebate_amount| 返佣总金额，详见**Price价格信息**表格  |  price     |
+|passengers | 旅客信息，详见**Passenger旅客信息**列表    |  array     |
+|tickets | 车票信息，详见**Ticket车票信息**列表    |  array     |
+|records | 费用记录信息，详见**Record费用记录信息**列表    |  array     |
 
+**Order订单信息**
 
-### 线下出票
-
-预定德国国家铁路局线下出票，可以通过Offline Confirmation来提交离线订单。
-
-**接口URL**
-
-`api/v1/offline_confirmation`
-
-HTTP POST
-
-```json
-{
-  "data": {
-    "token": "BK_MR0Y7QKNJ9DN",
-    "card": null
-  },
-  "api_key": "1dfe8baa121443a594794adf4c337567",
-  "t": 1485151578,
-  "sign": "09fba8919a52b5e1d89f809bc68cd40b"
-}
-```
-
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|id        | 订单ID      |  string    |
+|PNR       | 车票PNR代码  |  string  |
+|railway  | 铁路公司编码，详见**Railway编码**表格     | railway |
+|from      | 起始站信息,详见**Station车站信息**表格  |  station   |  
+|to        | 终点站编码，详见**Station车站信息**表格  |  station   |
+|departure | 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"  |  string     |
+|created_at| 创建时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"  |  string     |
+|passengers | 旅客信息，详见**Passenger旅客信息**列表    |  array     |
+|tickets | 车票信息，详见**Ticket车票信息**列表    |  array     |
 
 ### 信用卡线上支付
 
