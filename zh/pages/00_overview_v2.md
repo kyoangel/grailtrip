@@ -50,12 +50,12 @@ GET /api/v2/async_results/{async_key}
 
 | Parameter        | 类型           | Description  |  必须 |
 | ------------- |:-------------:| -----:|
-| from          | 起始站编码     | string | 是 |
-| to            | 终点站编码     |   string | 是 |
-| date          | 出发日期，格式为yyyy-MM-dd HH:mm   |    string | 是 |
-| time          | 出发时间, 格式为HH:mm |  string     | 否 |
-| adult         | 成年人人数     |  integer     | 是 |
-| child         | 儿童人数      |  integer    | 是 |
+| from          | 起始站编码     | path | 是 |
+| to            | 终点站编码     |   path | 是 |
+| date          | 出发日期，格式为yyyy-MM-dd HH:mm   |    path | 是 |
+| time          | 出发时间, 格式为HH:mm |  path     | 否 |
+| adult         | 成年人人数     |  path     | 是 |
+| child         | 儿童人数      |  path    | 是 |
 
 
 ### Search Response
@@ -989,13 +989,15 @@ Confirm成功之后，就可以下载电子车票。不同的公司生成车票�
 
 ### 下载车票 Request
 
-`Get /v1/online_orders/{online_order_id}/online_tickets`
+```
+Get /v2/online_orders/{online_order_id}/
+```
 
 该操作为同步调用，返回车票下载的网址数组。
 
 下面例子展示了下载的Request json
 
-```json
+```
   {
     "online_order_id": "OC_LOEON67VG"
   }
@@ -1006,9 +1008,9 @@ Confirm成功之后，就可以下载电子车票。不同的公司生成车票�
 
 #### 参数说明
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-online_order_id         , Book Response中id字段    ,  string     ,
+|Parameter | Description | 类型         |
+--------- | ----------- | ----------- |
+| online_order_id | Confirm Response中id字段  |  path  |
 
 ### 下载车票 Response
 
