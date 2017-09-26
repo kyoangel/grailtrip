@@ -150,7 +150,7 @@ GET /api/v2/async_results/{async_key}
 
 | Parameter        | 类型           | Description  |
 | ------------- |:-------------:| -----:|
-| railway          | 铁路公司，详见**Railway编码**表格     | railway |
+| railway          | 铁路公司编码，详见**Railway编码**表格     | railway |
 | solutions            | 旅程方案列表，详见**Solution信息**表格     |   array |
 
 
@@ -225,7 +225,7 @@ GET /api/v2/async_results/{async_key}
 |description  | 舱位描述     |  string     |
 |detail    | 舱位详细信息     |  string     |
 |available | 剩余席位，详见**Available剩余席位信息**表格  |  available     |
-|price     | 价格，详见**Price价格信息**表格   |  price     |
+|price     | 总价格，详见**Price价格信息**表格   |  price     |
 |booking_code | 预订编码，用于Book Request    |  string     |
 
 
@@ -448,9 +448,10 @@ GET /v2/async_results/{async_key}
 | Parameter | Description | 类型         |
 |---------- | ----------- | ------------ |
 |contact    |  订票联系人，详见**Contact联系人信息**表格    |  contact     |
-|passengers | 旅客信息，详见旅客信息列表    |  array     |
+|passengers | 旅客信息，详见**Passenger旅客信息**列表    |  array     |
 |sections   | Segments，行程中的不同车型，详见**Sections信息**表格    |  array     |
 |seat_reserved  | 是否订座，true or false  |  boolean     |
+
 
 **Contact联系人信息**
 
@@ -462,25 +463,25 @@ GET /v2/async_results/{async_key}
 |address   | 电话号码 |  string     |
 |postcode  | 邮寄地址 |  string     |
 
-**旅客信息**
+
+**Passenger旅客信息**
 
 |Parameter | Description | 类型         |
 |--------- | ----------- | ----------- |
 |last_name | 姓，拼音     |string     |
 |first_name| 名，拼音     |  string   |
 |birthdate | 生日，格式为yyyy-MM-dd    |  string     |
-|passport  | 护照号    |  string     |
-|email     |  邮件    |  string     |
-|phone     |  电话号码 |  string     |
-|gender    |  male or female |  enum     |
+|passport  | 护照号      |  string     |
+|email     | 邮件       |  string     |
+|phone     | 电话号码    |  string     |
+|gender    | male or female |  enum     |
+
 
 **Sections信息**
 
 |Parameter | Description | 类型         |
 |--------- | ----------- | ----------- |
 |book_code | Search Response里面的book_code集合  |  array     |
-
-
 
 
 **Memo备注信息**
@@ -493,130 +494,134 @@ GET /v2/async_results/{async_key}
 
 ```json
 {
-  "id": "OD_37Y7KNM0P",
-  "rw": "TI",
-  "cuy": "CNY",
-  "p": 320576,
-  "co": 6412,
-  "ta": 323782,
-  "dt": "2017-04-01",
-  "od": 1490870462,
-  "s": "ST_D8NNN9ZK",
-  "d": "ST_EZVVG1X5",
-  "psgs": [
-    {
-      "id": "PN_53Y1DDMKX",
-      "fst": "firste",
-      "lst": "last",
-      "birth": "1975-04-01",
-      "e": "aoe@oeu.com",
-      "ph": "10080",
-      "pt": "123456",
-      "exp": "2017-04-06"
+      "id": "OD_02NY86GJP",
+      "railway": {
+        "code": "DB"
+      },
+      "from": {
+        "code": "ST_E020P6M4",
+        "name": "Berlin"
+      },
+      "to": {
+        "code": "ST_EMYR64OX",
+        "name": "Munchen"
+      },
+      "departure": "2017-03-08T13:30:00+01:00",
+      "created_at": 1509363000,
+      "ticket_price": { "currency": "USD", "cents": 3900 },
+      "payment_price": { "currency": "USD", "cents": 0 },
+      "rtp_price": { "currency": "USD", "cents": 5100 },
+      "charging_price": { "currency": "USD", "cents": 800 },
+      "rebate_amount": { "currency": "USD", "cents": 117 },
+      "passengers": [
+        {
+          "id": "PN_69NKJLY13",
+          "first_name": "san",
+          "last_name": "zhang",
+          "birthdate": "1986-09-01",
+          "email": "x@a.cn",
+          "phone": "15000367081",
+          "gender": "male"
+        }
+      ],
+      "tickets": [
+        {
+          "id": "TK_2E6GY7MYZ",
+          "from": {
+            "code": "ST_E020P6M4",
+            "name": "Berlin"
+          },
+          "to": {
+            "code": "ST_EMYR64OX",
+            "name": "Munchen"
+          },
+          "price": { "currency": "USD", "cents": 3900 }
+        }
+      ],
+      "records": [
+        {
+          "id": "OL_02NY86GJP",
+          "amount": { "currency": "USD", "cents": 3900 },
+          "type": "credit",
+          "category": "ticket",
+          "target": "TK_2E6GY7MYZ"
+        },{
+          "id": "OL_N37Y7PG0P",
+          "amount": { "currency": "USD", "cents": 117 },
+          "type": "debit",
+          "category": "commission",
+          "target": "TK_2E6GY7MYZ"
+        },{
+          "id": "OL_WPKYKJMQ5",
+          "amount": { "currency": "USD", "cents": 800 },
+          "type": "credit",
+          "category": "fee",
+          "target": "PN_69NKJLY13"
+        },{
+          "id": "OL_J0QYPEG9O",
+          "amount": { "currency": "USD", "cents": 1200 },
+          "type": "credit",
+          "category": "seat_reservation",
+          "target": "OR_EYO7GEMJW"
+        }
+      ]
     }
-  ],
-  "tks": [
-    {
-      "id": "TK_54MW7WGXQ",
-      "p": 160288,
-      "s": "ST_D8NNN9ZK",
-      "st": "2017-04-01 11:20",
-      "d": "ST_EZVVG1X5",
-      "at": "2017-04-01 14:40"
-    },
-    {
-      "id": "TK_V384DYMNW",
-      "p": 160288,
-      "s": "ST_D8NNN9ZK",
-      "st": "2017-04-01 11:20",
-      "d": "ST_EZVVG1X5",
-      "at": "2017-04-01 14:40"
-    }
-  ],
-  "lns": [
-    {
-      "id": "OL_PKYKJ5PMQ",
-      "am": 1472,
-      "at": "slave",
-      "lt": "debit",
-      "cg": "custom",
-      "tg": "TK_V38441V8N",
-      "des": "OTA返佣2%"
-    },
-    {
-      "id": "OL_54MWZ6XMP",
-      "am": 73587,
-      "at": "master",
-      "lt": "credit",
-      "cg": "custom",
-      "tg": "TK_V38441V8N",
-      "des": "购票"
-    },
-    {
-      "id": "OL_LOMO3EOGV",
-      "am": 1603,
-      "at": "master",
-      "lt": "credit",
-      "cg": "custom",
-      "tg": "PN_53Y1DDMKX",
-      "des": "出票费2.2欧每人"
-    }
-  ]
-}
 ```
 #### 参数说明
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-id        , ID    ,  string    ,
-rw        , 铁路公司编码    ,  string    ,
-cuy       , 币种，EUR, CNY, HKD等    ,  string     ,
-p         , 票面价格，最小货币单位     ,  integer     ,
-co        , 佣金金额，最小货币单位   ,  integer     ,
-ta        , 总价格，最小货币单位   ,  integer     ,
-dt        , 出发日期，格式为yyyy-MM-dd    ,  string     ,
-od        , 创建日期UNIX时间戳    ,  integer     ,
-s         , 起始站编码    ,  string     ,
-d         , 终点站编码    ,  string     ,
-psgs      , 旅客信息    , array      ,
-tks       , 车票信息    ,  array     ,
-lns       , 费用信息    , array      ,
+|Parameter | Description | 类型        |
+|--------- | ----------- | ----------- |
+|id        | 订单ID       |  string    |
+|railway  | 铁路公司编码，详见**Railway编码**表格     | railway |
+|from      | 起始站信息,详见**Station车站信息**表格  |  station   |  
+|to        | 终点站编码，详见**Station车站信息**表格  |  station   |
+|departure | 发车时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"  |  string     |
+|created_at| 创建时间，UTC格式的本地时间，例如："2017-03-08T13:30:00+01:00"  |  string     |
+|ticket_price | 票面总票价，详见**Price价格信息**表格  |  price     |
+|payment_price| 支付总金额，可能包括订座费、订票费等，但是不包括从挂账扣除的部分，详见**Price价格信息**表格  |  price     |
+|rtp_price    | 需要刷卡金额，只适用于德铁，详见**Price价格信息**表格  |  price     |
+|charging_price| 挂账扣除总金额，详见**Price价格信息**表格  |  price     |
+|rebate_amount| 返佣总金额，详见**Price价格信息**表格  |  price     |
+|passengers | 旅客信息，详见**Passenger旅客信息**列表    |  array     |
+|tickets | 车票信息，详见**Ticket车票信息**列表    |  array     |
+|records | 费用记录信息，详见**Record费用记录信息**列表    |  array     |
 
-**旅客信息**
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-id       , ID          , string      ,
-lst      , 姓，拼音    ,  string     ,
-fst         , 名，拼音    ,  string     ,
-birth      , 生日，格式为yyyy-MM-dd    ,  string     ,
-ph        , 电话     , string ,
-e         , 邮箱       , string ,
-pt        , 护照号    ,  string     ,
-exp       , 护照截止日期，格式为yyyy-MM-dd    ,  string     ,
+**Ticket车票信息**
 
-**车票信息**
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|id        | 车票ID      |  string    |
+|from      | 起始站信息,详见**Station车站信息**表格  |  station   |  
+|to        | 终点站编码，详见**Station车站信息**表格  |  station   |
+|price     | 票价，详见**Price价格信息**表格  |  price     |
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-id        , ID          ,  string    ,
-p         , 票面价格，最小货币单位     ,  integer     ,
-s         , 起始站编码    ,  string     ,
-d         , 终点站编码    ,  string     ,
-st        , 出发时间，格式为yyyy-MM-dd HH:mm    ,  string     ,
-dt        , 到达时间，格式为yyyy-MM-dd HH:mm    ,  string     ,
+**Record费用明细**
 
-**费用明细**
+|Parameter | Description | 类型         |
+|--------- | ----------- | ----------- |
+|id        | ID          |  string    |
+|amount    | 金额，详见**Price价格信息**表格  |  price     |
+|type      | 类型，credit or debit  |  string     |
+|category  | 费用类型，详见**Category费用类型**表格  |  string     |
+|target    | 目标，可能是Order Id，Ticket Id，Passenger Id  |  string     |
 
-Parameter , Description , 类型         ,
---------- , ----------- , ----------- ,
-id        , ID          ,  string    ,
-am        , 费用，最小货币单位     ,  integer     ,
-at        , 账户类型 master, slave, credit_card, string,
-lt        , 结算类型 debit, credit ,   string ,
-cg        , 费用科目     , string      ,
-tg        , 对应ID      , string      ,
-des       , 备注        ,  string     ,
+
+**Category费用明细**
+
+|Category | Description | 
+|---------| ----------- | 
+|custom   | ID          |  
+|ticket   | 车票费  | 
+|seat_reservation | 订座费  |  
+|fee      | 订票费  | 
+|commission | 佣金  | 
+|refunded_ticket| 退票费  | 
+|refunded_seat_reservation  | 退订座费  | 
+|canceled_ticket| 取消费用  | 
+|canceled_seat_reservation | 取消订座费  | 
+|return_commission | 返还佣金  | 
+|coupon | 优惠券  | 
 
 下面是Book 2017年2月16日中午12点从罗马到米兰的高铁(意大利国家铁路Trenitalia, FR 9626)Executive舱的示例代码
 
