@@ -758,10 +758,10 @@ GET /v1/async_results/{async_key}
 ```json
   {
     "credit_card": {
-      "number": "378876901453727",
+      "number": "37887690145*******",
       "exp_month": 11,
       "exp_year": 20,
-      "cvv": "119"
+      "cvv": "***"
     }
   }
 
@@ -780,7 +780,6 @@ Confirm最主要的是需要online_order_id。如果需要订购德铁车票，�
 |Parameter | Description | 类型         |
 |--------- | ----------- | ----------- |
 |number    | 信用卡号     |  string    |
-|name      | 信用卡持有人姓名|  string  |
 |exp_month | 信用卡截止月份|  string |
 |exp_year  | 信用卡截止年|  string     |
 |cvv       | 安全码|  string     |
@@ -915,8 +914,7 @@ require 'active_support/json'
 confirm_information = {
     "online_order_id": "OD_V3G44VG85",
     "card": {
-      "cn": "349206776921275",
-      "name": "full name",
+      "cn": "3492067769******",
       "exp": "202002",
       "vn": "1234"
     }
