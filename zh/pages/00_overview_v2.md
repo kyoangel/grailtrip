@@ -35,7 +35,7 @@ GET /api/v2/async_results/{async_key}
 
 下面是搜索一位成年旅客，在2017年3月08日中午12时(dt，当地时间)，从柏林中央车站(Berlin Hbf，车站编码'ST_E020P6M4')到慕尼黑中央车站(München Hbf，车站编码，'ST_EMYR64OX')的车次、车票和价格信息的Request
 
-```json
+```
   {
     "from": "ST_E020P6M4",
     "to": "ST_EMYR64OX",
@@ -48,16 +48,14 @@ GET /api/v2/async_results/{async_key}
 
 #### 参数说明
 
-| Parameter        | 类型           | Description  |
+| Parameter        | 类型           | Description  |  必须 |
 | ------------- |:-------------:| -----:|
-| from          | 起始站编码     | string |
-| to            | 终点站编码     |   string |
-| date          | 出发日期，格式为yyyy-MM-dd HH:mm   |    string |
-| time          | 出发时间, 格式为HH:mm |  string     |
-| adult         | 成年人人数     |  integer     |
-| child         | 儿童人数      |  integer    |
-
-
+| from          | 起始站编码     | string | 是 |
+| to            | 终点站编码     |   string | 是 |
+| date          | 出发日期，格式为yyyy-MM-dd HH:mm   |    string | 是 |
+| time          | 出发时间, 格式为HH:mm |  string     | 否 |
+| adult         | 成年人人数     |  integer     | 是 |
+| child         | 儿童人数      |  integer    | 是 |
 
 
 ### Search Response
