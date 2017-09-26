@@ -1,4 +1,4 @@
-# grailtrip
+# grailtravel
 
 ---
 title: 铁路API文档 
@@ -24,7 +24,7 @@ search: true
 
 ## 概述
 
-本文档介绍了Oulu API定义以及使用场景和例子。
+本文档介绍了GRail API定义以及使用场景和例子。
 
 ## Search行程
 

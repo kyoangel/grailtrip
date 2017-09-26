@@ -1,12 +1,12 @@
 ---
 layout: page
 lang: zh
-title: 用支付宝支付GrailTrip订单
-description: 用支付宝支付GrailTrip订单
+title: 用支付宝支付GrailTravel订单
+description: 用支付宝支付GrailTravel订单
 ---
 
 ## 概述
-本文旨在让GrailTrip的合作伙伴通过让客户直接扫码支付的方式来支付产生的订单，以取代从Agency账户挂帐的支付方式。
+本文旨在让GrailTravel的合作伙伴通过让客户直接扫码支付的方式来支付产生的订单，以取代从Agency账户挂帐的支付方式。
 
 ## 过程
 总体过程与一般的订票过程相比多了一步。
@@ -24,8 +24,8 @@ Agency账户挂帐的订票方式，API调用过程为：
 ```
 
 ### 具体操作如下
-1. 联系GrailTrip启用支付宝支付功能
-2. 告知GrailTrip支付成功后跳转的地址（支付成功后将会跳转到该地址再加上Grail的Order_id，例如 http://example.com/orders/OD_XNM9KKPM4
+1. 联系GrailTravel启用支付宝支付功能
+2. 告知GrailTravel支付成功后跳转的地址（支付成功后将会跳转到该地址再加上Grail的Order_id，例如 http://example.com/orders/OD_XNM9KKPM4
 3. 在预定车票成功后，会收到订单详情，包括价格等信息，获取其中的purl
 4. 从网页端，把订票用户重定向到上述地址，由用户通过支付宝扫码支付
 5. 通过调用确认接口确认出票(p.s. 如果不确认，系统将不会出票)
@@ -67,7 +67,7 @@ Agency账户挂帐的订票方式，API调用过程为：
 1. 配置返回URL
 2. 确认出票时，增加"paid"参数
 
-`POST /v1/online_orders/{online_order_id}/online_confirmations`
+`POST /v2/online_orders/{online_order_id}/online_confirmations`
 
 Example requrest:
 

@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Grail Trip
-tagline: Ground Travel planner in Europe
+title: Grail Travel
+tagline: Ground Transportation planner in Europe
 description: To help you search, compare, book Europe ground transportation tickets include DBahn, Italo, Trenitalia and Flixbus
 locale: en
 ---
@@ -22,5 +22,5 @@ It is not hard to integrate with Grail API. Please refer to the following API do
 {% endfor %}
 
 ---
-If you had any question, contact [us](mailto:oulu@ul-e.com) 
+If you had any question, contact [us](mailto:support_team@grailtravel.com) 
 

@@ -8,10 +8,10 @@ highlighter: rouge
 # Themes are encouraged to use these universal variables
 # so be sure to set them if your theme uses them.
 #
-title : Grail Trip API Document
+title : Grail Travel API Document
 author :
-  name : Grail Trip
-  email : oulu@ul-e.com
+  name : Grail Travel
+  email : support_team@grailtravel.com
   github : qinwenshi
   twitter : shiqinwen
   feedburner : nil

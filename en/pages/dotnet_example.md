@@ -16,7 +16,7 @@ RestSharp
 ## Codes
 
 ```csharp
-using GrailTrip.SDK.Requests;
+using GrailTravel.SDK.Requests;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace GrailTrip.SDK
+namespace GrailTravel.SDK
 {
     public class Client
     {
@@ -45,9 +45,9 @@ namespace GrailTrip.SDK
             var secure = new ParamSecure(Config.Secret, Config.ApiKey, dateTime, searchReqeust);
             var signature = secure.Sign();
 
-            var client = new RestClient(Config.GrailTripHost);
+            var client = new RestClient(Config.GrailTravelHost);
 
-            var request = new RestRequest($"/api/v1/online_solutions?{searchReqeust.GetURL()}", Method.GET);
+            var request = new RestRequest($"/api/v2/online_solutions?{searchReqeust.GetURL()}", Method.GET);
             request.AddHeader("From", Config.ApiKey);
             request.AddHeader("Date", dateTime.ToString("r"));
             request.AddHeader("Authorization", signature);
@@ -62,7 +62,7 @@ namespace GrailTrip.SDK
 
 How to encrypt the parameters：
 ```csharp
-using GrailTrip.SDK.Requests;
+using GrailTravel.SDK.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +71,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 
 
-namespace GrailTrip.SDK
+namespace GrailTravel.SDK
 {
     public class ParamSecure
     {
@@ -121,7 +121,7 @@ I abstract one class for the request：
 using Newtonsoft.Json;
 using System;
 
-namespace GrailTrip.SDK.Requests
+namespace GrailTravel.SDK.Requests
 {
     public class SearchRequest : RequestBase
     {
@@ -159,7 +159,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GrailTrip.SDK.Requests
+namespace GrailTravel.SDK.Requests
 {
     public abstract class RequestBase
     {
