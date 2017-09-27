@@ -636,43 +636,38 @@ require 'active_support/time'
 require 'active_support/json'
 
 book_information = {
-    "ct":
-    {
-      "name": "Zhang San",
-      "e": "test@email.com",
-      "post": "post code",
-      "ph": "123456",
-      "add": "address"
-    },
-    "psgs": [
+      contact: {
+        name: "Liping",
+        email: "lp@163.com",
+        phone: "10086",
+        address: "beijing",
+        postcode: "100100"
+      },
+      passengers: [
       {
-        "lst": "First",
-        "fst": "Last",
-        "birth": "1996-09-02",
-        "e": "test@email.com",
-        "ph": "123456",
-        "passport": "12121221",
-        "exp": "2022-11-03"
+        last_name: "zhang",
+        first_name: "san",
+        birthdate: "1986-09-01",
+        passport: "A123456",
+        email: "x@a.cn",
+        phone: "15000367081",
+        gender: "male"
       }
-    ],
-    "secs": [
-      {
-        "id": "SC_1LECVMF",
-        "o": "1,1,0,ITA",
-        "st": "30000|1"
-      }
-    ],
-    "res": false
-  }
+      ],
+      sections: [
+        "bc_01"
+      ],
+      seat_reserved: true
+    }
 
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
-  hashdata = {api_key: api_key, t: time}.merge(params.reject {,k, v, v.is_a? Hash}.reject {,k, v, v.is_a? Array}.reject {,k, v, v.nil?})
-  sign = Digest::MD5.hexdigest(hashdata.sort.map{,k,v, "#{k}=#{v}"}.join + secret)
+  hashdata = {api_key: api_key, t: time}.merge(params.reject {|k, v| v.is_a? Hash}.reject {|k, v| v.is_a? Array}.reject {|k, v| v.nil?})
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
   result = {
-    "From": api_key,
-    "Date": Time.at(time).httpdate,
-    "Authorization": sign
+    From: api_key,
+    Date: Time.at(time).httpdate,
+    Authorization: sign
   }
 end
 
@@ -683,7 +678,7 @@ env = "alpha"
 
 def send_http_post uri, api_key, secret, params
   res = Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { ,http,
+    :use_ssl => uri.scheme == 'https') { |http|
     request = Net::HTTP::Post.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -699,7 +694,7 @@ end
 
 def send_http_get uri, api_key, secret, params
   Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { ,http,
+    :use_ssl => uri.scheme == 'https') { |http|
     request = Net::HTTP::Get.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -711,12 +706,12 @@ def send_http_get uri, api_key, secret, params
 end
 
 begin
-  uri = URI("https://#{env}.api.detie.cn/api/v1/online_orders")
+  uri = URI("https://#{env}.api.detie.cn/api/v2/online_orders")
   async_resp = send_http_post uri, api_key, secret, book_information
   p async_resp
   sleep(3)
 
-  get_result_uri = URI("https://#{env}.api.detie.cn/api/v1/async_results/#{async_resp['async']}")
+  get_result_uri = URI("https://#{env}.api.detie.cn/api/v2/async_results/#{async_resp['async']}")
   50.times do
     sleep(3)
     book_result = send_http_get get_result_uri, api_key, secret, {async_key: async_resp['async']}
@@ -739,13 +734,13 @@ Book之后，需要在二十分钟内Confirm Booking，才会正式出票
 ### Confirm Request
 
 ```
-POST /v1/online_orders/{online_order_id}/online_confirmations
+POST /v2/online_orders/{online_order_id}/online_confirmations
 ```
 
 该操作为异步调用，真实环境下返回异步查询async_key，再通过
 
 ```
-GET /v1/async_results/{async_key}
+GET /v2/async_results/{async_key}
 ```
 
 获取真实结果。
