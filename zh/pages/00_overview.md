@@ -254,7 +254,7 @@ class Array
     if empty?
       nil.to_query(prefix)
     else
-      collect { ,value, value.to_query(prefix) }.join "&"
+      collect { |value| value.to_query(prefix) }.join '&'
     end
   end
 end
@@ -262,8 +262,8 @@ end
 class Hash
 
   def to_query(namespace = nil)
-    collect do ,key, value,
-      unless (value.is_a?(Hash) ,, value.is_a?(Array)) && value.empty?
+    collect do |key, value|
+      unless (value.is_a?(Hash) || value.is_a?(Array)) && value.empty?
         value.to_query(namespace ? "#{namespace}[#{key}]" : key)
       end
     end.compact.sort! * "&"
@@ -277,7 +277,7 @@ search_criteria = {"s":"ST_EZVVG1X5","d":"ST_D8NNN9ZK","dt": 11.hours.since(Time
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
   hashdata = {api_key: api_key, t: time}.merge(params)
-  sign = Digest::MD5.hexdigest(hashdata.sort.map{,k,v, "#{k}=#{v}"}.join + secret)
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
   result = {
     "From": api_key,
     "Date": Time.at(time).httpdate,
@@ -294,7 +294,7 @@ env = "alpha"
 
 def send_http_get uri, api_key, secret, params
   Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { ,http,
+    :use_ssl => uri.scheme == 'https') { |http|
     request = Net::HTTP::Get.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]

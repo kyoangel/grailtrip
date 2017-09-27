@@ -12,7 +12,7 @@ description: 简化版API，帮助您搜索、比较、预定欧洲地面交通�
 
 ## Search行程
 
-展示了搜索一位成人2017年3月08日上午11点开始从柏林到慕尼黑车票行程的Request和Response的json报文
+展示了搜索一位成人2017年3月08日上午11点开始从柏林到慕尼黑车票行程的Request和Response的报文
 
 > 每个request，都需要提供security params
 
@@ -258,8 +258,7 @@ GET /api/v2/async_results/{async_key}
 
 > Ruby版
 
-```ruby
-#!/usr/bin/env ruby
+```ruby#!/usr/bin/env ruby
 
 require "digest/md5"
 require 'time'
@@ -320,7 +319,7 @@ class Array
     if empty?
       nil.to_query(prefix)
     else
-      collect { ,value, value.to_query(prefix) }.join "&"
+      collect { |value| value.to_query(prefix) }.join '&'
     end
   end
 end
@@ -328,8 +327,8 @@ end
 class Hash
 
   def to_query(namespace = nil)
-    collect do ,key, value,
-      unless (value.is_a?(Hash) ,, value.is_a?(Array)) && value.empty?
+    collect do |key, value|
+      unless (value.is_a?(Hash) || value.is_a?(Array)) && value.empty?
         value.to_query(namespace ? "#{namespace}[#{key}]" : key)
       end
     end.compact.sort! * "&"
@@ -338,16 +337,16 @@ class Hash
   alias_method :to_param, :to_query
 end
 
-search_criteria = {"from":"ST_EZVVG1X5","to":"ST_D8NNN9ZK","date": 11.hours.since(Time.new(2017,4,1)).strftime("%Y-%m-%d %H:%M"),"adult":1,"child":0}
+search_criteria = {from:"ST_E020P6M4",to:"ST_EMYR64OX",date: "2017-12-01",adult:1,child:0}
 
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
   hashdata = {api_key: api_key, t: time}.merge(params)
-  sign = Digest::MD5.hexdigest(hashdata.sort.map{,k,v, "#{k}=#{v}"}.join + secret)
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
   result = {
-    "From": api_key,
-    "Date": Time.at(time).httpdate,
-    "Authorization": sign
+    From: api_key,
+    Date: Time.at(time).httpdate,
+    Authorization: sign
   }
   p result
   result
@@ -360,7 +359,7 @@ env = "alpha"
 
 def send_http_get uri, api_key, secret, params
   Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { ,http,
+    :use_ssl => uri.scheme == 'https') { |http|
     request = Net::HTTP::Get.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
