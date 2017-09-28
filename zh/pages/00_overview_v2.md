@@ -52,7 +52,7 @@ GET /api/v2/async_results/{async_key}
 | ------------- |:-------------:| -----:|
 | from          | 起始站编码     | path | 是 |
 | to            | 终点站编码     |   path | 是 |
-| date          | 出发日期，格式为yyyy-MM-dd HH:mm   |    path | 是 |
+| date          | 出发日期，格式为yyyy-MM-dd |    path | 是 |
 | time          | 出发时间, 格式为HH:mm |  path     | 否 |
 | adult         | 成年人人数     |  path     | 是 |
 | child         | 儿童人数      |  path    | 是 |
@@ -904,22 +904,22 @@ require 'active_support/time'
 require 'active_support/json'
 
 confirm_information = {
-    "online_order_id": "OD_V3G44VG85",
-    "card": {
-      "cn": "3492067769******",
-      "exp": "202002",
-      "vn": "1234"
+    credit_card: {
+      number: "37887690145",
+      exp_month: 11,
+      exp_year: 20,
+      cvv: "123"
     }
   }
 
 def signature_of api_key, secret, params = {}
   time = Time.new.to_i
-  hashdata = {api_key: api_key, t: time}.merge(params.reject {,k, v, v.is_a? Hash}.reject {,k, v, v.is_a? Array}.reject {,k, v, v.nil?})
-  sign = Digest::MD5.hexdigest(hashdata.sort.map{,k,v, "#{k}=#{v}"}.join + secret)
+  hashdata = {api_key: api_key, t: time}.merge(params.reject {|k, v| v.is_a? Hash}.reject {|k, v| v.is_a? Array}.reject {|k, v| v.nil?})
+  sign = Digest::MD5.hexdigest(hashdata.sort.map{|k,v| "#{k}=#{v}"}.join + secret)
   result = {
-    "From": api_key,
-    "Date": Time.at(time).httpdate,
-    "Authorization": sign
+    From: api_key,
+    Date: Time.at(time).httpdate,
+    Authorization: sign
   }
 end
 
@@ -930,7 +930,7 @@ env = "alpha"
 
 def send_http_post uri, api_key, secret, params
   res = Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { ,http,
+    :use_ssl => uri.scheme == 'https') { |http|
     request = Net::HTTP::Post.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -946,7 +946,7 @@ end
 
 def send_http_get uri, api_key, secret, params
   Net::HTTP.start(uri.host, uri.port,
-    :use_ssl => uri.scheme == 'https') { ,http,
+    :use_ssl => uri.scheme == 'https') { |http|
     request = Net::HTTP::Get.new uri
     signature = signature_of(api_key, secret, params)
     request["From"]=signature[:From]
@@ -958,11 +958,11 @@ def send_http_get uri, api_key, secret, params
 end
 
 begin
-  uri = URI("https://#{env}.api.detie.cn/api/v1/OD_V3G44VG85/online_confirmationss")
-  async_resp = send_http_post uri, api_key, secret, confirmation_information
+  uri = URI("https://#{env}.api.detie.cn/api/v2/OD_V3G44VG85/online_confirmations")
+  async_resp = send_http_post uri, api_key, secret, confirm_information
   p async_resp
 
-  get_result_uri = URI("https://#{env}.api.detie.cn/api/v1/async_results/#{async_resp['async']}")
+  get_result_uri = URI("https://#{env}.api.detie.cn/api/v2/async_results/#{async_resp['async']}")
   50.times do
     sleep(3)
     book_result = send_http_get get_result_uri, api_key, secret, {async_key: async_resp['async']}
@@ -971,8 +971,6 @@ begin
 rescue =>e
   p e
 end
-
-
 ```
 
 ## 下载车票
