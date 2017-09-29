@@ -982,7 +982,7 @@ Confirm成功之后，就可以下载电子车票。不同的公司生成车票�
 ### 下载车票 Request
 
 ```
-Get /v2/online_orders/{online_order_id}/
+Get /v1/online_orders/{online_order_id}/online_tickets
 ```
 
 该操作为同步调用，返回车票下载的网址数组。
