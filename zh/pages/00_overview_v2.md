@@ -983,7 +983,7 @@ Confirm成功之后，就可以下载电子车票。不同的公司生成车票�
 ### 下载车票 Request
 
 ```
-Get /v1/online_orders/{online_order_id}/online_tickets
+Get /v2/online_orders/{online_order_id}/online_tickets
 ```
 
 该操作为同步调用，返回车票下载的网址数组。
@@ -1069,7 +1069,7 @@ P.S.为了更加直观展示，上述的request都省去了该security params，
 
 ### 1. 通过HTTP Get轮询获取异步结果
 
-例如：/api/v1/async_results/218c2825aaa29fdee42de4ca9dcdcde6
+例如：/api/v2/async_results/218c2825aaa29fdee42de4ca9dcdcde6
 
 会返回JSON格式的请求结果。
 
