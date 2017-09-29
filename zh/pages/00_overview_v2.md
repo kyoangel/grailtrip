@@ -258,7 +258,8 @@ GET /api/v2/async_results/{async_key}
 
 > Ruby版
 
-```ruby#!/usr/bin/env ruby
+```ruby
+ruby#!/usr/bin/env ruby
 
 require "digest/md5"
 require 'time'
